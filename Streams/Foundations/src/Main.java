@@ -21,7 +21,7 @@ public class Main {
         // Array to Streams
         int[] numbersArray = {1,2,3,4,5};
         Stream<Integer> numbersArrayToStream = Arrays.stream(numbersArray) // return a primitive streams
-                                                     .boxed(); //you can also do asDoubleStream() (ret DoubleStream) then .boxed() (ret Double);
+                                                     .boxed(); //you can also do asDoubleStream() (ret DoubleStream) then .boxed() (ret Stream<Double>);
 
         // Direct Values
         Stream<Integer> numbersStream = Stream.of(1, 2, 3, 4, 5);
