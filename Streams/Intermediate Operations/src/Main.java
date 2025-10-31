@@ -83,28 +83,24 @@ public class Main {
         Stream.iterate(0, n -> n < 10,n -> n + 1)
               .skip(5)
               .forEach(System.out::println); // 5, 6, 7, 8, 9
+    }
 
-        // 8. takeWhile(Predicate) and dropWhile(Predicate)
-        // takeWhile: keeps prefix where predicate true, stops on first false — excellent for sorted or ordered streams.
-        // dropWhile: drops prefix while predicate true, then keeps rest. If it became false, it will keep the rest even the predicate for specific element became true
+    // 8. takeWhile(Predicate) and dropWhile(Predicate)
+    // takeWhile: keeps prefix where predicate true, stops on first false — excellent for sorted or ordered streams.
+    private void takeWhile() {
         List<Integer> list = List.of(2,4,6,7,8);
         list.stream()
             .takeWhile(n -> n % 2 == 0)
             .forEach(System.out::println); // 2,4,6
+    }
+
+    // dropWhile: drops prefix while predicate true, then keeps rest.
+    // If it became false, it will keep the rest even the predicate for specific element became true
+    private void dropWhile() {
+        List<Integer> list = List.of(2,4,6,7,8);
         list.stream()
-                .dropWhile(n -> n % 2 == 0)
-                .forEach(i -> System.out.println("Drop while: " + i)); // 7, 8 (keeps 8 even predicate is true)
-
-        // 9. mapToInt / mapToLong / mapToDouble - Convert object streams to primitive streams (IntStream/LongStream/DoubleStream) for efficient numeric ops.
-        List<String> names3 = List.of("Anna", "Bob");
-        int sumLen = names3.stream()
-                           .mapToInt(String::length)
-                           .sum();
-
-        // boxed() - Converts primitive stream back to Stream<T>
-        List<Integer> numbers = IntStream.range(0, 5)
-                                         .boxed()
-                                         .collect(Collectors.toList()); // List<Integer>
+            .dropWhile(n -> n % 2 == 0)
+            .forEach(i -> System.out.println("Drop while: " + i)); // 7, 8 (keeps 8 even predicate is true)
     }
 
     // 9. Convert object streams to primitive streams (IntStream/LongStream/DoubleStream) for efficient numeric ops.
@@ -158,7 +154,6 @@ public class Main {
         System.out.println("Boxed list: " + integerList);
         // Output: Boxed list: [1, 2, 3, 4, 5]
     }
-    // test
 
     // 10. For flattening to primitive streams: e.g., splitting strings into char codes.
     // flatMapToInt(IntStream val) expects an IntStream of the nested data
