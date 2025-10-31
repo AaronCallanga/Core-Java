@@ -1,11 +1,25 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
 
-        ex4();
+        ex5();
+    }
+
+    // Given a sentence, find the occurrence of each word
+    private static void ex5() {
+        String s = "I am Learning Streams API in Java Java";
+
+        Map<String, Long> occurences = Arrays.stream(s.split(" "))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+                                            // you can also write it as  x -> x for Function.identity()
+
+        System.out.println(occurences);
+        // {Learning=1, Java=2, in=1, I=1, API=1, am=1, Streams=1}
     }
 
     // Find the 2nd highest length word in the given sentence
