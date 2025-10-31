@@ -8,7 +8,18 @@ public class Main {
         ex4();
     }
 
+    // Find the 2nd highest length word in the given sentence
     private static void ex4() {
+        String s = "I am Learning Streams API in Java";
+
+        int highestLength = Arrays.stream(s.split(" ")).map(String::length)
+                                  .sorted(Comparator.reverseOrder())
+                                  .skip(1)
+                                  .findFirst()
+                                  .get();
+
+        System.out.println(highestLength);
+        // 7
 
     }
 
