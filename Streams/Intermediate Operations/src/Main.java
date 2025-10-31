@@ -371,4 +371,20 @@ public class Main {
         // DATE
     }
 
+    private static void mixParallelSequential() {
+        List<String> items = Arrays.asList("One", "Two", "Three", "Four");
+
+        items.stream()
+             .parallel()    // Step 1: Execute these operations in parallel
+             .map(String::length)
+             .sequential()  // Step 2: Switch back to a single thread for the final output step
+             .forEachOrdered(System.out::println); // forEachOrdered guarantees output order
+
+        // Output always prints lengths in the original list order:
+        // 3
+        // 3
+        // 5
+        // 4
+    }
+
 }
