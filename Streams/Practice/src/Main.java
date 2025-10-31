@@ -5,8 +5,26 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) {
 
-        ex2();
+        ex4();
+    }
 
+    private static void ex4() {
+
+    }
+
+    // Find the word that has the second highest length
+    private static void ex3() {
+        String s = "I am Learning Streams API in Java";
+
+        String ans = Arrays.stream(s.split(" "))
+                           .sorted(Comparator.comparing(String::length)     // Sorted in increasing order
+                                            .reversed())
+                           .skip(1)
+                           .findFirst()
+                           .get();
+
+        System.out.println(ans);
+        // Streams
     }
 
     // Remove duplicates from the string and return in the same order
