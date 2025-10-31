@@ -18,6 +18,6 @@ echo "Enter the branch name to push to (e.g., main, master, develop):"
 read branchName
 
 # Push the changes to the remote repository
-git push origin "$branchName"
+git push origin "${branchName:-master}"
 
 echo "Git operations completed: changes added, committed, and pushed to $branchName."
