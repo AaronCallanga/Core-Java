@@ -38,6 +38,9 @@ public class Main {
         asDoubleStream();
         asLongStream();
         summaryStatistics();
+        parallel();
+        sequential();
+        mixParallelSequential();
     }
 
     // 1. filter(Predicate<? super T> predicate) - keeps only elements matching predicate.
