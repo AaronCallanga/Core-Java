@@ -1,9 +1,12 @@
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class Main {
@@ -93,18 +96,68 @@ public class Main {
                 .forEach(i -> System.out.println("Drop while: " + i)); // 7, 8 (keeps 8 even predicate is true)
 
         // 9. mapToInt / mapToLong / mapToDouble - Convert object streams to primitive streams (IntStream/LongStream/DoubleStream) for efficient numeric ops.
-        // boxed() - Converts primitive stream back to Stream<T>
         List<String> names3 = List.of("Anna", "Bob");
         int sumLen = names3.stream()
                            .mapToInt(String::length)
                            .sum();
 
+        // boxed() - Converts primitive stream back to Stream<T>
         List<Integer> numbers = IntStream.range(0, 5)
                                          .boxed()
                                          .collect(Collectors.toList()); // List<Integer>
 
-        names3.stream().flatMapToInt(String::chars).forEach(System.out::println);
+        // flatMapToInt, flatMapToLong, flatMapToDouble - For flattening to primitive streams: e.g., splitting strings into char codes.
+        List<List<Integer>> nestedList = List.of(List.of(1,2), List.of(3,4));
+        IntStream flattenedIntStream = nestedList.stream().flatMapToInt(s -> s.stream().mapToInt(Integer::intValue));
 
-        // TEST
+
+
     }
+
+    private void flatMapToInt() {
+        List<String> data = Arrays.asList("Items123", "Data45", "Codes678");
+
+        IntStream digitStream = data.stream().flatMapToInt(s -> {
+            // For each string, create an IntStream of its integer digits
+            return s.chars()
+                    .filter(Character::isDigit)
+                    .map(Character::getNumericValue);
+        });
+
+        System.out.print("flatMapToInt results: ");
+        digitStream.forEach(i -> System.out.print(i + " "));
+        // Output: flatMapToInt results: 1 2 3 4 5 6 7 8
+    }
+
+    private void flatMapToLong() {
+        // Format: "ID,Salary"
+        List<String> employees = Arrays.asList("101,65000", "102,72000", "103,58000");
+
+        LongStream salaries = employees.stream().flatMapToLong(employee -> {
+            String[] parts = employee.split(",");
+            long salary = Long.parseLong(parts[1]);
+
+            // Returns a single-element LongStream for each salary
+            return LongStream.of(salary);
+        });
+
+    }
+
+    private void flatMapToDouble() {
+        List<String> salesReports = Arrays.asList("150.25,200.50", "120.00,300.75,180.10", "50.00");
+
+        DoubleStream salesStream = salesReports.stream().flatMapToDouble(report -> {
+            // Split the string by commas
+            String[] salesStrings = report.split(",");
+
+            // Map each string array element to a double value and put it in a DoubleStream
+            return Arrays.stream(salesStrings)
+                         .mapToDouble(Double::parseDouble);
+        });
+
+        double averageSale = salesStream.average().orElse(0.0);
+        System.out.printf("flatMapToDouble average sale: %.2f%n", averageSale);
+        // Output: flatMapToDouble average sale: 168.60
+    }
+
 }
