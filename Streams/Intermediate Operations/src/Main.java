@@ -15,16 +15,39 @@ public class Main {
         // Stateless - process element independently regardless of the other element in the streams - filter(), map(), flatMap(), peek()
         // Stateful - track and are dependent to other elements - distinct(), sorted(), limit(), skip()
 
-        List<String> names = List.of("Anna","Bob","Charlie","David");
-
         // Key Intermediate Operations:
-        // 1. filter(Predicate<? super T> predicate) - keeps only elements matching predicate.
+        filter();
+        map();
+        flatMap();
+        distinct();
+        sorted();
+        peek();
+        limit();
+        skip();
+        takeWhile();
+        dropWhile();
+        mapToInt();
+        mapToDouble();
+        mapToLong();
+        boxed();
+        flatMapToInt();
+        flatMapToLong();
+        flatMapToDouble();
+        unordered();
+    }
+
+    // 1. filter(Predicate<? super T> predicate) - keeps only elements matching predicate.
+    private static void filter() {
+        List<String> names = List.of("Anna","Bob","Charlie","David");
         names.stream()
              .filter(s -> s.length() >= 4)
              .forEach(System.out::println);
         // Output: Anna, Charlie, David
+    }
 
-        // 2. map(Function<? super T,? extends R> mapper) - transform each element to another object.
+    // 2. map(Function<? super T,? extends R> mapper) - transform each element to another object.
+    private static void map() {
+        List<String> names = List.of("Anna","Bob","Charlie","David");
         List<Integer> lengths = names.stream()
                                      .map(String::length)
                                      .collect(Collectors.toList());
@@ -34,9 +57,11 @@ public class Main {
              .map(String::toUpperCase)
              .forEach(System.out::println);
         // ANNA, BOB, CHARLIE, DAVID
+    }
 
-        // 3. flatMap(Function<? super T,? extends Stream<? extends R>> mapper) - map each element to a Stream, then flatten into one stream.
-        // Stream the Nested Data -> Make a stream for each nested data using flatMap(expects Stream obj) -> Become one Stream
+    // 3. flatMap(Function<? super T,? extends Stream<? extends R>> mapper) - map each element to a Stream, then flatten into one stream.
+    // Stream the Nested Data -> Make a stream for each nested data using flatMap(expects Stream obj) -> Become one Stream
+    private static void flatMap() {
         List<List<Integer>> nested = List.of(List.of(1,2), List.of(3,4));
         List<Integer> flattened = nested.stream()
                                         .flatMap(Collection::stream)  // s -> s.stream()
@@ -45,22 +70,21 @@ public class Main {
 
         List<String> lines = List.of("apple,banana", "cat");
         List<String> tokens = lines.stream()
-                .flatMap(s -> Arrays.stream(s.split(",")))
-                .collect(Collectors.toList());
+                                   .flatMap(s -> Arrays.stream(s.split(",")))
+                                   .collect(Collectors.toList());
         // tokens = ["apple","banana","cat"]
+    }
 
-        // 4. distinct() - removes duplicates based on equals() + hashCode(). - Stateful: needs storage of seen elements.
+    // 4. distinct() - removes duplicates based on equals() + hashCode(). - Stateful: needs storage of seen elements.
+    private static void distinct() {
         Stream.of(1,2,2,3,1)
               .distinct()
               .forEach(System.out::println);
         // 1,2,3
-
-
     }
 
-
     // 5. sorted() / sorted(Comparator<? super T>) - sorts elements. Requires comparing elements; stable with List sources - Stateful: needs to buffer all elements.
-    private void sorted() {
+    private static void sorted() {
         List<String> names2 = List.of("bob","alice","claire");
         names2.stream()
               .sorted()
@@ -74,7 +98,7 @@ public class Main {
     }
 
     // 6. peek(Consumer<? super T> action) - intersperse an action (for debugging) without modifying elements.
-    private void peek() {
+    private static void peek() {
         Stream.of("a","bb","ccc")
               .peek(s -> System.out.println("Peek: " + s))
               .map(String::length)
@@ -84,14 +108,14 @@ public class Main {
 
     // 7. limit(long maxSize) and skip(long n)
     // limit short-circuits: stops after maxSize elements.
-    private void limit() {
+    private static void limit() {
         Stream.iterate(0, n -> n + 1)
               .limit(5)
               .forEach(System.out::println); // 0, 1, 2, 3, 4
     }
 
     // skip: ignores first n elements (stateful).
-    private void iterate() {
+    private static void skip() {
         Stream.iterate(0, n -> n < 10,n -> n + 1)
               .skip(5)
               .forEach(System.out::println); // 5, 6, 7, 8, 9
@@ -99,7 +123,7 @@ public class Main {
 
     // 8. takeWhile(Predicate) and dropWhile(Predicate)
     // takeWhile: keeps prefix where predicate true, stops on first false — excellent for sorted or ordered streams.
-    private void takeWhile() {
+    private static void takeWhile() {
         List<Integer> list = List.of(2,4,6,7,8);
         list.stream()
             .takeWhile(n -> n % 2 == 0)
@@ -108,7 +132,7 @@ public class Main {
 
     // dropWhile: drops prefix while predicate true, then keeps rest.
     // If it became false, it will keep the rest even the predicate for specific element became true
-    private void dropWhile() {
+    private static void dropWhile() {
         List<Integer> list = List.of(2,4,6,7,8);
         list.stream()
             .dropWhile(n -> n % 2 == 0)
@@ -117,7 +141,7 @@ public class Main {
 
     // 9. Convert object streams to primitive streams (IntStream/LongStream/DoubleStream) for efficient numeric ops.
     // mapToInt(ToIntFunction) transforms a Stream<T> into an IntStream.
-    private void mapToInt() {
+    private static void mapToInt() {
         List<String> names3 = List.of("Anna", "Bob");
         int sumLen = names3.stream()
                            .mapToInt(String::length)
@@ -126,7 +150,7 @@ public class Main {
     }
 
     // mapToLong(ToLongFunction) transforms a Stream<T> into a LongStream.
-    private void mapToLong() {
+    private static void mapToLong() {
         List<String> populations = Arrays.asList(
                 "8100000000", // World population estimate
                 "1400000000", // Example country A
@@ -141,7 +165,7 @@ public class Main {
     }
 
     // mapToDouble(ToDoubleFunction) transforms a Stream<T> into a DoubleStream.
-    private void mapToDouble() {
+    private static void mapToDouble() {
         List<Integer> scores = Arrays.asList(92, 85, 78, 95);
 
         DoubleStream gpaStream = scores.stream()
@@ -154,7 +178,7 @@ public class Main {
 
     // boxed() is used to convert a primitive stream (IntStream, LongStream, or DoubleStream)
     // back into an object stream (Stream<Integer>, Stream<Long>, or Stream<Double>).
-    private void boxed() {
+    private static void boxed() {
         IntStream intStream = IntStream.rangeClosed(1, 5); // Produces 1, 2, 3, 4, 5 as primitives
 
         // We want a List<Integer>, not just an int[] or a printout.
@@ -169,7 +193,7 @@ public class Main {
 
     // 10. For flattening to primitive streams: e.g., splitting strings into char codes.
     // flatMapToInt(IntStream val) expects an IntStream of the nested data
-    private void flatMapToInt() {
+    private static void flatMapToInt() {
         List<String> data = Arrays.asList("Items123", "Data45", "Codes678");
 
         IntStream digitStream = data.stream().flatMapToInt(s -> {
@@ -185,7 +209,7 @@ public class Main {
     }
 
     // flatMapToLong(LongStream val) expects an LongStream of the nested data
-    private void flatMapToLong() {
+    private static void flatMapToLong() {
         // Format: "ID,Salary"
         List<String> employees = Arrays.asList("101,65000", "102,72000", "103,58000");
 
@@ -203,7 +227,7 @@ public class Main {
     }
 
     // flatMapToDouble(DoubleStream val) expects an DoubleStream of the nested data
-    private void flatMapToDouble() {
+    private static void flatMapToDouble() {
         List<String> salesReports = Arrays.asList("150.25,200.50", "120.00,300.75,180.10", "50.00");
 
         DoubleStream salesStream = salesReports.stream().flatMapToDouble(report -> {
@@ -221,7 +245,7 @@ public class Main {
     }
 
     // 11. Hint that ordering is not required -> parallel operations may perform better.
-    private void unordered() {
+    private static void unordered() {
         List<Integer> numbers = Arrays.asList(5, 2, 8, 2, 9, 5, 8, 1);
 
         // Standard ordered distinct operation (guaranteed order of insertion appearance: 5, 2, 8, 9, 1)
@@ -264,6 +288,28 @@ public class Main {
         found across all threads are collected first.Instead, it takes the first five elements found by any available
         thread, which can be faster.
          */
+    }
+
+    // Converts Primitive Stream to Another Primitive Stream
+    private static void asLongStream() {
+        IntStream intStream = IntStream.of(1, 2, 3, 4, 5);
+
+        // Convert the IntStream to a LongStream
+        LongStream longStream = intStream.asLongStream();
+
+        System.out.print("IntStream elements: ");
+        longStream.forEach(d -> System.out.print(d + " "));
+    }
+
+    private static void asDoubleStream() {
+        LongStream longStream = LongStream.of(123456789012345L, 987654321098765L);
+
+        // Convert the LongStream to a DoubleStream
+        DoubleStream doubleStream = longStream.asDoubleStream();
+
+        System.out.print("DoubleStream elements: ");
+        doubleStream.forEach(d -> System.out.print(d + " "));
+        // Output: DoubleStream elements: 1.23456789012345E14 9.87654321098765E14
     }
 
 }
