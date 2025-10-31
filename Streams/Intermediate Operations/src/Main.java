@@ -66,20 +66,27 @@ public class Main {
               .sorted(Comparator.comparing(String::length))
               .forEach(System.out::println);
         // bob, alice, claire
+    }
 
-        // 6. peek(Consumer<? super T> action) - intersperse an action (for debugging) without modifying elements.
+    // 6. peek(Consumer<? super T> action) - intersperse an action (for debugging) without modifying elements.
+    private void peek() {
         Stream.of("a","bb","ccc")
               .peek(s -> System.out.println("Peek: " + s))
               .map(String::length)
               .peek(s -> System.out.println("After map: " + s))
               .forEach(System.out::println); // or collect
+    }
 
-        // 7. limit(long maxSize) and skip(long n)
-        // limit short-circuits: stops after maxSize elements.
-        // skip: ignores first n elements (stateful).
+    // 7. limit(long maxSize) and skip(long n)
+    // limit short-circuits: stops after maxSize elements.
+    private void limit() {
         Stream.iterate(0, n -> n + 1)
               .limit(5)
               .forEach(System.out::println); // 0, 1, 2, 3, 4
+    }
+
+    // skip: ignores first n elements (stateful).
+    private void iterate() {
         Stream.iterate(0, n -> n < 10,n -> n + 1)
               .skip(5)
               .forEach(System.out::println); // 5, 6, 7, 8, 9
