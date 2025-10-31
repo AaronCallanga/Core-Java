@@ -104,5 +104,7 @@ public class Main {
                                          .collect(Collectors.toList()); // List<Integer>
 
         names3.stream().flatMapToInt(String::chars).forEach(System.out::println);
+
+        // TEST
     }
 }
