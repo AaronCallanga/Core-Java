@@ -55,7 +55,12 @@ public class Main {
               .forEach(System.out::println);
         // 1,2,3
 
-        // 5. sorted() / sorted(Comparator<? super T>) - sorts elements. Requires comparing elements; stable with List sources - Stateful: needs to buffer all elements.
+
+    }
+
+
+    // 5. sorted() / sorted(Comparator<? super T>) - sorts elements. Requires comparing elements; stable with List sources - Stateful: needs to buffer all elements.
+    private void sorted() {
         List<String> names2 = List.of("bob","alice","claire");
         names2.stream()
               .sorted()
