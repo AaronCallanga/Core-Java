@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -34,6 +35,9 @@ public class Main {
         flatMapToLong();
         flatMapToDouble();
         unordered();
+        asDoubleStream();
+        asLongStream();
+        summaryStatistics();
     }
 
     // 1. filter(Predicate<? super T> predicate) - keeps only elements matching predicate.
@@ -310,6 +314,61 @@ public class Main {
         System.out.print("DoubleStream elements: ");
         doubleStream.forEach(d -> System.out.print(d + " "));
         // Output: DoubleStream elements: 1.23456789012345E14 9.87654321098765E14
+    }
+
+    // Primitive stream special ops & ranges - sum(), average(), min(), max(), summaryStatistics().
+    // range(start, end) (end exclusive) and rangeClosed (inclusive).
+    private static void summaryStatistics() {
+        int sum = IntStream.rangeClosed(1, 10).sum(); // 55 (1+2+3+4+5+6+7+8+9+10)
+        int sum2 = IntStream.range(1, 10).sum(); // 45 (1+2+3+4+5+6+7+8+9) (end exclusive)
+        IntSummaryStatistics stats = IntStream.of(1,2,3,4).summaryStatistics();
+        System.out.println("\nsum: " + sum);
+        System.out.println("sum2: " + sum2);
+        System.out.println("average : " + stats.getAverage());
+        System.out.println("min: " + stats.getMin());
+        System.out.println("max: " + stats.getMax());
+        System.out.println("count: " + stats.getCount());
+    }
+
+    /*
+    The parallel() operation tells the JVM to attempt to execute the stream pipeline using
+    multiple threads from the common ForkJoinPool. This can significantly speed up operations on
+    large datasets, but the results are not guaranteed to be ordered unless a terminal operation
+    like forEachOrdered() or a collecting operation that enforces order is used
+     */
+    private static void parallel() {
+        long start = System.currentTimeMillis();
+
+        long sum = LongStream.range(0, 100_000_000)
+                             .parallel() // Executes the subsequent operations in parallel threads
+                             .map(n -> n * 2) // Operation run in parallel
+                             .sum();         // Terminal operation
+
+        long end = System.currentTimeMillis();
+        System.out.println("Parallel Stream Sum: " + sum);
+        System.out.println("Time taken (ms): " + (end - start));
+    }
+
+    /*
+     The sequential() operation ensures that the stream pipeline runs on a single thread.
+     This is useful for debugging, ensuring predictable output order, or when parallel execution
+     would actually be slower due to overhead (e.g., on small datasets or operations that
+     require constant synchronization).
+     */
+    private static void sequential() {
+        List<String> fruits = Arrays.asList("Banana", "Apple", "Cherry", "Date");
+
+        fruits.stream()
+              .parallel() // If we started with parallel() (e.g. if 'fruits' was a ConcurrentLinkedQueue)
+              .sequential() // Force subsequent operations back to a single thread
+              .map(String::toUpperCase)
+              .forEach(System.out::println); // forEach does not guarantee order in parallel streams
+
+        // Output will reliably be:
+        // BANANA
+        // APPLE
+        // CHERRY
+        // DATE
     }
 
 }
