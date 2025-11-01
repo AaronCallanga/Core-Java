@@ -32,76 +32,42 @@ public class Main {
             - how to combine partial results (for parallel),
             - and how to finish to produce the result R.
          */
+        /*
+            A downstream collector is a Collector that is passed as an argument to another Collector,
+            typically to perform further processing on the results of the "upstream" collector.
+            (modifying the collected data and collecting it again)
+         */
 
 
         //partitioningBy();
         //groupingBy();
-        groupingByWithDownstreamCollectors();
+        //groupingByWithDownstreamCollectors();
         //reduce();
         //basicCollectors();
         //joining();
         //counting();
         //summarizingType();
+        collectingAndThen();
 
 
     }
 
-    private static void groupingByWithDownstreamCollectors() {
+    // collectingAndThen(downstream, finisher) runs downstream to produce intermediate result then applies finisher to it.
+    // Useful for converting mutable collectors to immutable results or applying an additional operation.
+    // Think of it as collecting... and then... (apply some operation)
+    private static void collectingAndThen() {
+        // Getting the Employee object instead of optional
+        Employee highestSalary = employees.stream()
+                .collect(Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Employee::salary)), Optional::get));
+        System.out.println("Highest salary: " + highestSalary);
 
-        // Grouping + Mapping (w/ Collections)
-        // Can also do .toSet() to return unique items depending on the mapper(first args of .mapping())
-        // or Collectors.toCollection(Supplier<C> collectionFactory) such as (Collectors.toCollection(ArrayDeque::new)
-        // Collects the elements within each group into a List, Set, or a specific type of Collection.
-        Map<String, List<String>> listOfEmployeeNamesPerDepartment = employees.stream()
-                                                                              .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));
-        System.out.println("Grouping + Mapping -> List of Employees' Names Per Department: " + listOfEmployeeNamesPerDepartment);
-
-        // Grouping + Mapping (w/ Joining)
-        // Concatenates CharSequence elements within each group into a single String, separated by the specified delimiter.
-        Map<String, String> joinedEmployeeNamePerDepartment = employees.stream()
-                                                                       .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.joining(", "))));
-        System.out.println("Grouping + Joining -> List of Employees' Names Per Department: " + joinedEmployeeNamePerDepartment);
-
-        // Grouping + Mapping (w/ reduction)
-        // Performs a general reduction operation on the elements within each group using a BinaryOperator.
-        Map<String, Optional<String>> longestNameByDepartment = employees.stream()
-                                                                         .collect(Collectors.groupingBy(Employee::department,
-                                                                                 Collectors.mapping(Employee::name, Collectors.reducing((name1, name2) -> name1.length() > name2.length() ? name1 : name2))));
-        System.out.println("Grouping + Mapping (w/ reduction) -> Longest Employees' Name Per Department: " + longestNameByDepartment);
-
-        // Grouping + Counting
-        // Counts the number of elements within each group created by groupingBy()
-        Map<String, Long> numberOfEmployeesPerDepartment = employees.stream()
-                .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));
-        System.out.println("Grouping + Counting -> Number of Employees Per Department: " + numberOfEmployeesPerDepartment);
-
-        // Grouping + MaxBy/MinBy
-        // Finds the maximum or minimum element within each group based on a provided Comparator.
-        Map<String, Optional<Employee>> highestSalaryPerDepartment = employees.stream()
-                .collect(Collectors.groupingBy(Employee::department, Collectors.maxBy(Comparator.comparing(Employee::salary))));
-        System.out.println("Grouping + MaxBy -> Employee Who Got Highest Salary Per Department: " + highestSalaryPerDepartment);
-
-        // Grouping + Summing (sum) (summingInt(), summingLong(), summingDouble())
-        // Computes the sum of a numeric-valued function applied to the elements within each group.
-        Map<String, Long> totalSalaryPerDepartment = employees.stream()
-                .collect(Collectors.groupingBy(Employee::department, Collectors.summingLong(Employee::salary)));
-        System.out.println("Grouping + Summing -> Total Salary Per Department: " + totalSalaryPerDepartment);
-
-        // Grouping + Averaging (average) (averagingInt(), averagingLong(), averagingDouble())
-        // Computes the average of a numeric-valued function applied to the elements within each group.
-        Map<String, Double> averageSalaryPerDepartment = employees.stream()
-                .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));
-        System.out.println("Grouping + Summing -> Average Salary Per Department: " + averageSalaryPerDepartment);
-
-        // Grouping + CollectingAndThen
-        // Applies a finishing transformation to the result of another downstream collector.
-        Map<String, List<String>> listOfNamesInUpperCasePerDepartment = employees.stream()
-                .collect(Collectors.groupingBy(Employee::department,
-                        Collectors.collectingAndThen(Collectors.mapping(Employee::name,
-                                Collectors.toList()),
-                                list -> list.stream().map(String::toUpperCase).collect(Collectors.toList()))));
-        System.out.println("Grouping + CollectingAndThen -> Uppercase Names Per Department: " + listOfNamesInUpperCasePerDepartment);
-
+        // Collect as List<Salary>, Sort it, then return Unmodifiable List (finisher)
+        List<Long> employeesSalary = employees.stream()
+                                     .collect(Collectors.collectingAndThen(Collectors.mapping(Employee::salary, Collectors.toList()), list -> {
+                                         list.sort(Comparator.reverseOrder());
+                                         return Collections.unmodifiableList(list);
+                                     }));
+        System.out.println("Employees: " + employeesSalary);
     }
 
     // Produces IntSummaryStatistics/LongSummaryStatistics/DoubleSummaryStatistics with count, sum, min, max, average.
@@ -161,9 +127,6 @@ public class Main {
 
     // Reduce - to aggregate or combine elements into a single result, such as computing the maximum, minimum, sum, or product.
     // Param: identity = An initial value of type T. accumulator = A function that combines two values of type T.
-
-
-
 
     private static void reduce() {
         // Example 1: Getting Sum
@@ -226,8 +189,68 @@ public class Main {
           */
     }
 
+    // groupingBy with downstream collectors (composing collectors). This allows aggregation per-group.
+    private static void groupingByWithDownstreamCollectors() {
+
+        // Grouping + Mapping (w/ Collections)
+        // Can also do .toSet() to return unique items depending on the mapper(first args of .mapping())
+        // or Collectors.toCollection(Supplier<C> collectionFactory) such as (Collectors.toCollection(ArrayDeque::new)
+        // Collects the elements within each group into a List, Set, or a specific type of Collection.
+        Map<String, List<String>> listOfEmployeeNamesPerDepartment = employees.stream()
+                                                                              .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.toList())));
+        System.out.println("Grouping + Mapping -> List of Employees' Names Per Department: " + listOfEmployeeNamesPerDepartment);
+
+        // Grouping + Mapping (w/ Joining)
+        // Concatenates CharSequence elements within each group into a single String, separated by the specified delimiter.
+        Map<String, String> joinedEmployeeNamePerDepartment = employees.stream()
+                                                                       .collect(Collectors.groupingBy(Employee::department, Collectors.mapping(Employee::name, Collectors.joining(", "))));
+        System.out.println("Grouping + Joining -> List of Employees' Names Per Department: " + joinedEmployeeNamePerDepartment);
+
+        // Grouping + Mapping (w/ reduction)
+        // Performs a general reduction operation on the elements within each group using a BinaryOperator.
+        Map<String, Optional<String>> longestNameByDepartment = employees.stream()
+                                                                         .collect(Collectors.groupingBy(Employee::department,
+                                                                                 Collectors.mapping(Employee::name, Collectors.reducing((name1, name2) -> name1.length() > name2.length() ? name1 : name2))));
+        System.out.println("Grouping + Mapping (w/ reduction) -> Longest Employees' Name Per Department: " + longestNameByDepartment);
+
+        // Grouping + Counting
+        // Counts the number of elements within each group created by groupingBy()
+        Map<String, Long> numberOfEmployeesPerDepartment = employees.stream()
+                                                                    .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));
+        System.out.println("Grouping + Counting -> Number of Employees Per Department: " + numberOfEmployeesPerDepartment);
+
+        // Grouping + MaxBy/MinBy
+        // Finds the maximum or minimum element within each group based on a provided Comparator.
+        Map<String, Optional<Employee>> highestSalaryPerDepartment = employees.stream()
+                                                                              .collect(Collectors.groupingBy(Employee::department, Collectors.maxBy(Comparator.comparing(Employee::salary))));
+        System.out.println("Grouping + MaxBy -> Employee Who Got Highest Salary Per Department: " + highestSalaryPerDepartment);
+
+        // Grouping + Summing (sum) (summingInt(), summingLong(), summingDouble())
+        // Computes the sum of a numeric-valued function applied to the elements within each group.
+        Map<String, Long> totalSalaryPerDepartment = employees.stream()
+                                                              .collect(Collectors.groupingBy(Employee::department, Collectors.summingLong(Employee::salary)));
+        System.out.println("Grouping + Summing -> Total Salary Per Department: " + totalSalaryPerDepartment);
+
+        // Grouping + Averaging (average) (averagingInt(), averagingLong(), averagingDouble())
+        // Computes the average of a numeric-valued function applied to the elements within each group.
+        Map<String, Double> averageSalaryPerDepartment = employees.stream()
+                                                                  .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));
+        System.out.println("Grouping + Summing -> Average Salary Per Department: " + averageSalaryPerDepartment);
+
+        // Grouping + CollectingAndThen
+        // Applies a finishing transformation to the result of another downstream collector.
+        Map<String, List<String>> listOfNamesInUpperCasePerDepartment = employees.stream()
+                                                                                 .collect(Collectors.groupingBy(Employee::department,
+                                                                                         Collectors.collectingAndThen(Collectors.mapping(Employee::name,
+                                                                                                         Collectors.toList()),
+                                                                                                 list -> list.stream().map(String::toUpperCase).collect(Collectors.toList()))));
+        System.out.println("Grouping + CollectingAndThen -> Uppercase Names Per Department: " + listOfNamesInUpperCasePerDepartment);
+
+    }
+
     // Divide (and group) the list based on the predicate(or condition) you passed
     // returns Map<Boolean, List<Type>>,  Boolean value are true or false and assign employees based on the predicate
+    // boolean split - partitioningBy(predicate) is a specialized grouping producing two buckets: Map<Boolean, List<T>> (true and false).
     private static void partitioningBy() {
         Map<Boolean, List<Employee>> partitionedEmployees = employees.stream()
                                                         .collect(Collectors.partitioningBy(e -> e.salary() >= 50000));
