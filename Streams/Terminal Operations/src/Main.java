@@ -38,6 +38,17 @@ public class Main {
             (modifying the collected data and collecting it again)
          */
 
+        /** @Summary
+            Prefer collect (mutable reduction) for building collections/aggregations — it's the idiomatic, efficient way.
+            Use toMap with merge function if keys might collide.
+            Use groupingBy + downstream collectors to avoid extra passes over data.
+            Use partitioningBy for boolean splits; it’s a special-case grouping with two keys.
+            For numeric summaries use summarizingX or summingX / averagingX to compute stats in one pass.
+            Use collectingAndThen for final post-processing or to return immutable results.
+            Consider groupingByConcurrent / toConcurrentMap for parallel streams, but ensure downstream collectors are thread-safe and you don’t care about ordering.
+            Watch out for buffering/stateful collectors (memory).
+            When building maps of large cardinality, pick proper map supplier (e.g., LinkedHashMap or ConcurrentHashMap) if ordering or concurrency matters.
+         */
 
         //partitioningBy();
         //groupingBy();
