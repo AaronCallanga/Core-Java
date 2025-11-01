@@ -2,7 +2,10 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.DoubleSummaryStatistics;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -33,7 +36,38 @@ public class Main {
         //groupingBy();
         //reduce();
         //basicCollectors();
-        joining();
+        //joining();
+        //counting();
+        //summarizingType();
+
+    }
+
+    // Produces IntSummaryStatistics/LongSummaryStatistics/DoubleSummaryStatistics with count, sum, min, max, average.
+    private static void summarizingType() {
+        LongSummaryStatistics stats = employees.stream()
+                                               .collect(Collectors.summarizingLong(Employee::salary));
+        stats.getAverage();
+        stats.getMax();
+        stats.getMin();
+        stats.getSum();
+        System.out.println(stats);
+
+        DoubleSummaryStatistics stats2 = employees.stream()
+                                                 .collect(Collectors.summarizingDouble(Employee::salary));
+        IntSummaryStatistics stats3 = employees.stream()
+                                               .collect(Collectors.summarizingInt(e -> Integer.valueOf(e.salary.toString())));
+        System.out.println(stats2);
+        System.out.println(stats3);
+    }
+
+    // Simple terminal collector giving a Long. It’s equivalent to stream.count(), but useful as a downstream collector.
+    private static void counting() {
+        long count = Stream.of("a", "b", "c").collect(Collectors.counting());
+        System.out.println(count); // 3
+
+        long count2 = Stream.of("a", "b", "c").count();
+        System.out.println(count2); // 3
+
     }
 
     // Concatenates stream of CharSequences (combine strings)
