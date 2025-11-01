@@ -32,17 +32,32 @@ public class Main {
         //partitioningBy();
         //groupingBy();
         //reduce();
-        basicCollectors();
+        //basicCollectors();
         joining();
+    }
+
+    // Concatenates stream of CharSequences (combine strings)
+    private static void joining() {
+        String csv = Stream.of("a","b","c").collect(Collectors.joining(","));
+        System.out.println(csv);
+        // "a,b,c"
+
+        // You can specify a delimiter(separator between stream values), prefix and a suffix .joining(delimiter, prefix, suffix)
+        String htmlList = Stream.of("one","two")
+                                .collect(Collectors.joining("--", "<ul><li>", "</li></ul>"));
+        System.out.println(htmlList);
+        // <ul><li>one--two</li></ul>
     }
 
     private static void basicCollectors() {
         List<String> list = Stream.of("a","b","c").collect(Collectors.toList());
         Set<String> set = Stream.of("a","b","b").collect(Collectors.toSet());
         Deque<String> deque = Stream.of("x","y").collect(Collectors.toCollection(ArrayDeque::new));
+
         // Immutable List
         List<String> immutableList = Stream.of("a","b","c").collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-        // Map - error if there is duplicate key. You have to handle it with merge function
+
+        // Map - error if there is duplicate key. You have to handle it with merge function or just use groupingBy instead
         Map<String, Employee> employeeMap = employees.stream()
                 .collect(Collectors.toMap(Employee::department, Function.identity(), (existing, replacement) -> existing));
         employeeMap.forEach((k, v) -> System.out.println(v));
