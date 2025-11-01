@@ -41,6 +41,17 @@ public class Main {
         parallel();
         sequential();
         mixParallelSequential();
+
+        /** @Summary
+            Put cheap filter early (reduce work).
+            Use mapToInt / primitive streams for numeric heavy work.
+            Avoid side-effects; use collectors for aggregation.
+            sorted & distinct are stateful and may buffer the stream.
+            peek is for debugging only.
+            Use takeWhile / limit to short-circuit infinite or expensive streams.
+            Consider unordered() before parallelizing if order isn't needed.
+            Avoid collecting to shared mutable structures in parallel without concurrency control.
+         */
     }
 
     // 1. filter(Predicate<? super T> predicate) - keeps only elements matching predicate.
