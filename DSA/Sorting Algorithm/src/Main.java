@@ -3,7 +3,8 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         //bubbleSort();
-        insertionSort();
+        //insertionSort();
+        selectionSort();
     }
 
 
@@ -39,6 +40,23 @@ public class Main {
     }
     // Selection
     private static void selectionSort() {
+        int[] array = {1,5,9,2,3,8,7};
+        for (int i = 0; i < array.length - 1; i++) {
+            int minIndex = i;
+            int j = i + 1;
+
+            while (j < array.length) {
+                if (array[j] < array[minIndex]) {
+                    minIndex = j;
+                }
+                j++;
+            }
+
+            int temp = array[i];
+            array[i] = array[minIndex];
+            array[minIndex] = temp;
+        }
+        System.out.println(Arrays.toString(array));
     }
     // Merge
     private static void mergeSort() {
