@@ -5,7 +5,8 @@ public class Main {
         //bubbleSort();
         //insertionSort();
         //selectionSort();
-        mergeSortInit();
+        //mergeSortInit();
+        quickSortInit();
     }
 
 
@@ -69,7 +70,7 @@ public class Main {
         System.out.println(Arrays.toString(array));
     }
 
-    // Merge
+    // Merge - divide into sub-arrays then merge it while sorting
     private static void mergeSortInit() {
         int[] array = {1,5,9,2,3,8,7};
         mergeSort(array, 0, array.length - 1);
@@ -103,7 +104,7 @@ public class Main {
         int[] R = new int[n2];
 
 
-        // Copy the element to the temporary array
+        // Copy the element to the temporary array (can do Arrays.copyOf())
         for(int i = 0; i < n1; i++) {
             L[i] = arr[left + i];
         }
@@ -172,6 +173,47 @@ public class Main {
     }
 
     // Quick
-    private static void quickSort() {
+    private static void quickSortInit() {
+        int[] array = {1,5,9,2,3,8,7};
+        quickSort(array, 0, array.length - 1);
+        System.out.println(Arrays.toString(array));
+    }
+
+    private static void quickSort(int[] arr, int left, int right) {
+        // Choose a pivot (anywhere) - a good pivot reduces recursion depth making sorting faster
+        // Partition(divide) the array into two parts
+        // Left part contains smaller than the pivot, right part contains greater than the pivot
+        // Then put the pivot between them
+        // Recursively sort the sub-arrays (each array getting new pivot)
+        if (left < right) {
+            int pivot = partition(arr, left, right);
+
+            // Recursively sort on the left side of the pivot
+            quickSort(arr, left, pivot - 1);
+            // Recursively sort on the right side of the pivot
+            quickSort(arr, pivot + 1, right);
+        }
+    }
+
+    private static int partition(int[] arr, int left, int right) {
+        // Choose the last element as the pivot
+        int pivot = arr[right];
+
+        int i = left - 1;
+        for (int j = left; j < right; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        // Swap pivot to the correct position (putting it in between)
+        int temp = arr[i+1];
+        arr[i + 1] = arr[right];
+        arr[right] = temp;
+
+        return i + 1;
     }
 }
