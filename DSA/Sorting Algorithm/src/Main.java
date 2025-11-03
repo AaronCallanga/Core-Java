@@ -72,6 +72,12 @@ public class Main {
 
     // Merge - divide into sub-arrays then merge it while sorting
     private static void mergeSortInit() {
+        /* Flow:
+            Divide into sub-arrays (till one element remains)
+            Create a copy of each sub-array (left and right)
+            Merge it to the original array while sorting (checking if left element are <= right)
+            If left or right has left-over elements, insert it
+         */
         int[] array = {1,5,9,2,3,8,7};
         mergeSort(array, 0, array.length - 1);
         System.out.println(Arrays.toString(array));
@@ -180,11 +186,13 @@ public class Main {
     }
 
     private static void quickSort(int[] arr, int left, int right) {
-        // Choose a pivot (anywhere) - a good pivot reduces recursion depth making sorting faster
-        // Partition(divide) the array into two parts
-        // Left part contains smaller than the pivot, right part contains greater than the pivot
-        // Then put the pivot between them
-        // Recursively sort the sub-arrays (each array getting new pivot)
+        /* Flow:
+             Choose a pivot (anywhere) - a good pivot reduces recursion depth making sorting faster
+             Partition(divide) the array into two parts
+             Left part contains smaller than the pivot, right part contains greater than the pivot
+             Then put the pivot between them
+             Recursively sort the sub-arrays (each array getting new pivot)
+         */
         if (left < right) {
             int pivot = partition(arr, left, right);
 
