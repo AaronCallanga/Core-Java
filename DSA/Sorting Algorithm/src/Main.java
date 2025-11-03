@@ -172,7 +172,7 @@ public class Main {
         }
     }
 
-    // Quick
+    // Quick - get a partition then put on the left elements that are <= than the pivot, right greater than the pivot then do it recursively at the left and right part
     private static void quickSortInit() {
         int[] array = {1,5,9,2,3,8,7};
         quickSort(array, 0, array.length - 1);
@@ -196,11 +196,16 @@ public class Main {
     }
 
     private static int partition(int[] arr, int left, int right) {
-        // Choose the last element as the pivot
+        // Choose the rightmost element as pivot
         int pivot = arr[right];
 
+        // Pointer for placing the element lower than the pivot
         int i = left - 1;
+
+        // Compare each element with pivot
         for (int j = left; j < right; j++) {
+            // If element smaller than pivot is found
+            // Swap it with the greater element pointed by i (increment i first since it is initially pointing at left - 1)
             if (arr[j] <= pivot) {
                 i++;
                 int temp = arr[i];
@@ -209,11 +214,13 @@ public class Main {
             }
         }
 
-        // Swap pivot to the correct position (putting it in between)
-        int temp = arr[i+1];
-        arr[i + 1] = arr[right];
+        // Swap pivot to the correct position (putting it in between so increment i first)
+        i++;
+        int temp = arr[i];
+        arr[i] = arr[right];
         arr[right] = temp;
 
-        return i + 1;
+        // Return the position from where partition is done
+        return i;
     }
 }
