@@ -74,6 +74,10 @@ public class Main {
         int[] array = {1,5,9,2,3,8,7};
         mergeSort(array, 0, array.length - 1);
         System.out.println(Arrays.toString(array));
+
+        int[] array2 = {1,5,9,2,3,8,7};
+        mergeSort2(array2);
+        System.out.println(Arrays.toString(array2));
     }
     private static void mergeSort(int[] arr, int left, int right) {
         if (left < right) {
@@ -98,6 +102,7 @@ public class Main {
         int[] L = new int[n1];
         int[] R = new int[n2];
 
+
         // Copy the element to the temporary array
         for(int i = 0; i < n1; i++) {
             L[i] = arr[left + i];
@@ -119,11 +124,49 @@ public class Main {
             }
         }
 
-        // Insert the left-over (if there is)
+        // Insert the left-over (if there is any)
         while (i < n1) {
             arr[k++] = L[i++];
         }
         while (j < n2) {
+            arr[k++] = R[j++];
+        }
+    }
+
+    private static void mergeSort2(int[] arr) {
+        if (arr.length > 1) {
+            // Find the mid pointer (divider)
+            int mid = arr.length / 2;
+            // Divide the array into two halves
+            int[] L = Arrays.copyOfRange(arr, 0, mid);
+            int[] R = Arrays.copyOfRange(arr, mid, arr.length);
+
+            // Recursively sort the left and right halves
+            mergeSort2(L);
+            mergeSort2(R);
+
+            // Merge each divided array
+            merge2(arr, L, R);
+        }
+    }
+
+    private static void merge2(int[] arr, int[] L, int[] R) {
+        // Merge both sub-array(left and right) to the original array
+        // Pointer: i - left sub-array, j - right sub-array, k - original array
+        int i = 0, j = 0, k = 0;
+        while(i < L.length && j < R.length) {
+            if (L[i] <= R[j]) {
+                arr[k++] = L[i++];
+            } else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        // Insert the left-over (if there is any)
+        while (i < L.length) {
+            arr[k++] = L[i++];
+        }
+        while (j < R.length) {
             arr[k++] = R[j++];
         }
     }
