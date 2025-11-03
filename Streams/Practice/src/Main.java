@@ -12,7 +12,20 @@ public class Main {
         ex7();
     }
 
+    // Divide given integer array into lists of even and odd numbers
+    private static void ex7() {
+        int[] arr = {1,2,3,4,5,6,7,8};
 
+        // You have to use .boxed() method to be able to make numerical operations such as % (modulo)
+        Map<Boolean, List<Integer>> method1 = IntStream.of(arr)
+                                                       .boxed()
+                                                       .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+        Map<Boolean, List<Integer>> method2 = Arrays.stream(arr)
+                                                    .boxed()
+                                                    .collect(Collectors.groupingBy(n -> n % 2 == 0));
+        System.out.println(method1.get(true));
+        System.out.println(method2.get(false));
+    }
 
     // Given a sentence, find the words with a specified number of vowels
     private static void ex6() {
