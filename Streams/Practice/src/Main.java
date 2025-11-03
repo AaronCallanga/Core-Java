@@ -9,7 +9,17 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex7();
+        ex8();
+    }
+
+    // Given a word, find the occurrence of each character
+    private static void ex8() {
+        String word = "Mississippi";
+
+        Map<String, Long> countPerCharacter = Arrays.stream(word.split(""))
+                                          .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(countPerCharacter);
+        // {p=2, s=4, i=4, M=1}
     }
 
     // Divide given integer array into lists of even and odd numbers
@@ -17,6 +27,8 @@ public class Main {
         int[] arr = {1,2,3,4,5,6,7,8};
 
         // You have to use .boxed() method to be able to make numerical operations such as % (modulo)
+        // Both Instream.of and Arrays.stream returns Instream, then used boxed to make it Stream<Integer>
+
         Map<Boolean, List<Integer>> method1 = IntStream.of(arr)
                                                        .boxed()
                                                        .collect(Collectors.partitioningBy(n -> n % 2 == 0));
@@ -25,6 +37,11 @@ public class Main {
                                                     .collect(Collectors.groupingBy(n -> n % 2 == 0));
         System.out.println(method1.get(true));
         System.out.println(method2.get(false));
+
+        // You can also do convert the arr to List<Integer> then do normal stream partitioningBy.
+        List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+        Map<Boolean, List<Integer>> method3 = list.stream()
+                                                  .collect(Collectors.partitioningBy(e -> e % 2 == 0));
     }
 
     // Given a sentence, find the words with a specified number of vowels
