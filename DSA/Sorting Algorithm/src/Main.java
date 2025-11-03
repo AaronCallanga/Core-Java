@@ -4,7 +4,8 @@ public class Main {
     public static void main(String[] args) {
         //bubbleSort();
         //insertionSort();
-        selectionSort();
+        //selectionSort();
+        mergeSortInit();
     }
 
 
@@ -13,7 +14,9 @@ public class Main {
     private static void bubbleSort() {
         int[] array = {1,5,9,2,3,8,7};
         for (int i = 0; i < array.length - 1; i++) {
+            // Loop until length - i, since the highest element is already sorted at the top(bubbled up)
             for (int j = 0; j < array.length - i - 1; j++) {
+                // Bubble the element at index j
                 if (array[j] > array[j + 1]) {
                     int temp = array[j];
                     array[j] = array[j + 1];
@@ -23,28 +26,34 @@ public class Main {
         }
         System.out.println(Arrays.toString(array));
     }
-    // Insertion
+    // Insertion - insert each element at the right index while shifting other element
     private static void insertionSort() {
         int[] array = {1,5,9,2,3,8,7};
 
         for (int i = 1; i < array.length; i++) {
+            // Get the element to be inserted
             int key = array[i];
             int j = i - 1;
+
+            // Shift other element if it is greater than the key(selected element)
             while(j >= 0 && array[j] > key) {
                 array[j+1] = array[j];
                 j--;
             }
+            // Insert the key to its proper place after shifting other elements
             array[j+1] = key;
         }
         System.out.println(Arrays.toString(array));
     }
-    // Selection
+    // Selection - select the lowest element and swap with element at index i
     private static void selectionSort() {
         int[] array = {1,5,9,2,3,8,7};
         for (int i = 0; i < array.length - 1; i++) {
+            // Initialize i as the minimum index
             int minIndex = i;
             int j = i + 1;
 
+            // Find the lowest element using j pointer
             while (j < array.length) {
                 if (array[j] < array[minIndex]) {
                     minIndex = j;
@@ -52,15 +61,73 @@ public class Main {
                 j++;
             }
 
+            // Swap the place of the lowest element and index i
             int temp = array[i];
             array[i] = array[minIndex];
             array[minIndex] = temp;
         }
         System.out.println(Arrays.toString(array));
     }
+
     // Merge
-    private static void mergeSort() {
+    private static void mergeSortInit() {
+        int[] array = {1,5,9,2,3,8,7};
+        mergeSort(array, 0, array.length - 1);
+        System.out.println(Arrays.toString(array));
     }
+    private static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            // Find the mid pointer (divider)
+            int mid = (left + right) / 2;
+
+            // Divide each array by half until it become a single element (left points where right is/beyond right is >=)
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+
+            // Merge each divided array
+            merge(arr, left, mid, right);
+        }
+    }
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Make a temporary copy of the left and right array
+        // First sub-array is array[left..mid]
+        // Second sub-array is array[mid+1..right]
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        // Copy the element to the temporary array
+        for(int i = 0; i < n1; i++) {
+            L[i] = arr[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            R[j] = arr[mid + 1 + j];
+        }
+
+        // Merge both sub-array(left and right) to the original array
+        // Pointer: i - left sub-array, j - right sub-array, k - original array
+        int i = 0, j = 0, k = left;
+
+        // Choose and insert the lowest element between Left and Right sub-array
+        while(i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k++] = L[i++];
+            } else {
+                arr[k++] = R[j++];
+            }
+        }
+
+        // Insert the left-over (if there is)
+        while (i < n1) {
+            arr[k++] = L[i++];
+        }
+        while (j < n2) {
+            arr[k++] = R[j++];
+        }
+    }
+
     // Quick
     private static void quickSort() {
     }
