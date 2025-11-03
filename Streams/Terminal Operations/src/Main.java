@@ -138,7 +138,6 @@ public class Main {
 
     // Reduce - to aggregate or combine elements into a single result, such as computing the maximum, minimum, sum, or product.
     // Param: identity = An initial value of type T. accumulator = A function that combines two values of type T.
-
     private static void reduce() {
         // Example 1: Getting Sum
         Long reduce = employees.stream().map(Employee::salary)

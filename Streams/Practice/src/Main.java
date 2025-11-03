@@ -1,13 +1,37 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
 
-        ex5();
+        ex7();
+    }
+
+
+
+    // Given a sentence, find the words with a specified number of vowels
+    private static void ex6() {
+        String s = "I am Learning Streams API in Java";
+        int numOfVowels = 2; // a, e, i, o, u - Return list of words with 2 vowels in it
+
+        String[] words = s.split(" ");
+
+        List<String> wordsWith2Vowels = Arrays.stream(words).filter(w -> {
+            long countVowels = w.toLowerCase().chars()
+                                .filter(c -> "aeiou".indexOf(c) != -1)  // -1 if it doesn't find. If it finds, count it
+                                .count();
+            return countVowels == numOfVowels;
+        }).collect(Collectors.toList());
+
+        System.out.println(wordsWith2Vowels);
+        // [Streams, API, Java]
+
+
     }
 
     // Given a sentence, find the occurrence of each word
