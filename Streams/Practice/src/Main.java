@@ -9,7 +9,16 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex9();
+        ex10();
+    }
+
+    // Given an array, find the sum of unique elements
+    private static void ex10() {
+        int[] arr = {1, 6, 7, 8, 1, 1, 8, 8, 7}; // should be 1 + 6 + 7 + 8 = 22
+
+        int sumOfUniqueElements = Arrays.stream(arr).distinct().reduce(0, (x, y) -> x + y); // Integer::sum
+        int sumOfUniqueElements2 = Arrays.stream(arr).distinct().sum();
+        System.out.println(sumOfUniqueElements); // 22
     }
 
     // Arrange the numbers in Descending/Ascending Order
@@ -18,14 +27,15 @@ public class Main {
         String lowestToHighest = Arrays.stream(arr)
                                        .sorted()
                                        .mapToObj(String::valueOf)  // cant use String::valueof in map if it is not Stream<Integer>
-                                       .collect(Collectors.joining(""));
+                                       .collect(Collectors.joining(""));  // optional delimiter
         String lowestToHighest2 = Arrays.stream(arr)
                                         .boxed()
                                         .sorted(Comparator.naturalOrder()) // or just sorted(), default
                                         .map(String::valueOf)
-                                        .collect(Collectors.joining(""));
+                                        .collect(Collectors.joining());
 
         System.out.println(lowestToHighest2);
+        // 123456789
 
         String highestToLowest = Arrays.stream(arr)
                                        .boxed()
@@ -33,6 +43,7 @@ public class Main {
                                        .map(String::valueOf)
                                        .collect(Collectors.joining(""));
         System.out.println(highestToLowest);
+        // 987654321
     }
 
     // Given a word, find the occurrence of each character
