@@ -9,7 +9,30 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex8();
+        ex9();
+    }
+
+    // Arrange the numbers in Descending/Ascending Order
+    private static void ex9() {
+        int[] arr = {5,2,3,1,4,6,7,9,8};
+        String lowestToHighest = Arrays.stream(arr)
+                                       .sorted()
+                                       .mapToObj(String::valueOf)  // cant use String::valueof in map if it is not Stream<Integer>
+                                       .collect(Collectors.joining(""));
+        String lowestToHighest2 = Arrays.stream(arr)
+                                        .boxed()
+                                        .sorted(Comparator.naturalOrder()) // or just sorted(), default
+                                        .map(String::valueOf)
+                                        .collect(Collectors.joining(""));
+
+        System.out.println(lowestToHighest2);
+
+        String highestToLowest = Arrays.stream(arr)
+                                       .boxed()
+                                       .sorted(Comparator.reverseOrder())
+                                       .map(String::valueOf)
+                                       .collect(Collectors.joining(""));
+        System.out.println(highestToLowest);
     }
 
     // Given a word, find the occurrence of each character
