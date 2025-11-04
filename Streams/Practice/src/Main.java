@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -12,7 +14,19 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex14();
+        ex15();
+    }
+
+    // Find the products of the first two elements in an array.
+    private static void ex15() {
+        int[] arr = {12,5,6,9,2,4};
+
+        OptionalInt reduce = Arrays.stream(arr).limit(2).reduce((x, y) -> x * y);
+        System.out.println(reduce.getAsInt()); // 60
+
+        Optional<Integer> reduce1 = Arrays.stream(arr).limit(2).boxed().reduce((x, y) -> x * y);
+        System.out.println(reduce1.get()); // 60
+
     }
 
     // Given a list of strings, create a list that contains only integers
