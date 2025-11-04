@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -10,7 +11,17 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex12();
+        ex13();
+    }
+
+    // Given an array of integers, group the numbers by the range (Range: by 10)
+    private static void ex13() {
+        int[] arr = {2, 3, 10, 14, 20, 24, 30, 34, 40, 44, 50, 54};
+        System.out.println((41/10)* 10);
+        Map<Integer, List<Integer>> collect = Arrays.stream(arr)
+                                                    .mapToObj(n -> (int) n)
+                                                    .collect(Collectors.groupingBy(n -> (n / 10) * 10, LinkedHashMap::new, Collectors.toList()));
+        System.out.println(collect);
     }
 
     // Given a string, find the first repeated character
@@ -22,13 +33,22 @@ public class Main {
                            .findFirst()
                            .get();
 
-        LinkedHashMap<Character, Long> collect = s.chars().mapToObj(c -> (char) c)
+        // Linked Hash Map, follows insertion order
+        LinkedHashMap<Character, Long> collect = s.chars().mapToObj(c -> (char) c)  // Stream<Character>
                                                   .collect(Collectors.groupingBy(
                                                           Function.identity(),
                                                           LinkedHashMap::new,
                                                           Collectors.counting()
                                                                                 ));
-        char ans2 = collect.entrySet().stream()
+
+        LinkedHashMap<String, Long> collect2 = Arrays.stream(s.split(""))           // Stream<String>
+                                                  .collect(Collectors.groupingBy(
+                                                          Function.identity(),
+                                                          LinkedHashMap::new,
+                                                          Collectors.counting()
+                                                                                ));
+
+        String ans2 = collect2.entrySet().stream()
                            .filter(entry -> entry.getValue() != 1)
                            .findFirst().get().getKey();
 
