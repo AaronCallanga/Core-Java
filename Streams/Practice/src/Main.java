@@ -7,19 +7,39 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
 
-        ex13();
+        ex14();
+    }
+
+    // Given a list of strings, create a list that contains only integers
+    private static void ex14() {
+        String[] sArr = {"abc", "123", "456", "xyz"};
+
+        List<Integer> list = Arrays.stream(sArr)
+                                  .filter(x->x.matches("\\d+")) // only digits or [0-9]+
+                                  .map(Integer::valueOf)
+                                  .collect(Collectors.toUnmodifiableList());
+
+        List<String> collect = Arrays.stream(sArr)
+                                     .filter(s -> s.chars().mapToObj(c -> (char) c).allMatch(Character::isDigit))
+                                     .collect(Collectors.toList());
+
+        System.out.println(list);
+        System.out.println(collect);
     }
 
     // Given an array of integers, group the numbers by the range (Range: by 10)
     private static void ex13() {
         int[] arr = {2, 3, 10, 14, 20, 24, 30, 34, 40, 44, 50, 54};
-        System.out.println((41/10)* 10);
-        Map<Integer, List<Integer>> collect = Arrays.stream(arr)
-                                                    .mapToObj(n -> (int) n)
+
+        System.out.println((41/10)* 10); // gives grouping classifier
+
+        Map<Integer, List<Integer>> collect = Arrays.stream(arr) // become IntStream
+                                                    .boxed() // or use mapToObj (to make Stream<Integer>)
                                                     .collect(Collectors.groupingBy(n -> (n / 10) * 10, LinkedHashMap::new, Collectors.toList()));
         System.out.println(collect);
     }
