@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -9,7 +10,30 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex11();
+        ex12();
+    }
+
+    // Given a string, find the first repeated character
+    private static void ex12() {
+        String s = "Hello World";
+
+        String ans = Arrays.stream(s.split(""))
+                           .filter(c -> s.indexOf(c) != s.lastIndexOf(c))
+                           .findFirst()
+                           .get();
+
+        LinkedHashMap<Character, Long> collect = s.chars().mapToObj(c -> (char) c)
+                                                  .collect(Collectors.groupingBy(
+                                                          Function.identity(),
+                                                          LinkedHashMap::new,
+                                                          Collectors.counting()
+                                                                                ));
+        char ans2 = collect.entrySet().stream()
+                           .filter(entry -> entry.getValue() != 1)
+                           .findFirst().get().getKey();
+
+        System.out.println(ans); // l
+        System.out.println(ans2); // l
     }
 
     // Given a string, find the first non-repeated character
@@ -21,7 +45,19 @@ public class Main {
                          .findFirst()
                          .get();
 
+        LinkedHashMap<Character, Long> collect = s.chars()
+                                                  .mapToObj(c -> (char) c)
+                                                  .collect(Collectors.groupingBy(
+                                                          Function.identity(),
+                                                          LinkedHashMap::new,
+                                                          Collectors.counting()
+                                                                                ));
+        char ans2 = collect.entrySet().stream()
+                           .filter(entry -> entry.getValue() == 1)
+                           .findFirst().get().getKey();
+
         System.out.println(ans); // H
+        System.out.println(ans2); // H
     }
 
     // Given an array, find the sum of unique elements
