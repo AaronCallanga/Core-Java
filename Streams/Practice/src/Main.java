@@ -9,7 +9,19 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        ex10();
+        ex11();
+    }
+
+    // Given a string, find the first non-repeated character
+    private static void ex11() {
+        String s = "Hello World";
+
+        String ans = Arrays.stream(s.split(""))
+                         .filter(c -> s.indexOf(c) == s.lastIndexOf(c))
+                         .findFirst()
+                         .get();
+
+        System.out.println(ans); // H
     }
 
     // Given an array, find the sum of unique elements
@@ -84,7 +96,7 @@ public class Main {
         int numOfVowels = 2; // a, e, i, o, u - Return list of words with 2 vowels in it
 
         String[] words = s.split(" ");
-
+        
         List<String> wordsWith2Vowels = Arrays.stream(words).filter(w -> {
             long countVowels = w.toLowerCase().chars()
                                 .filter(c -> "aeiou".indexOf(c) != -1)  // -1 if it doesn't find. If it finds, count it
