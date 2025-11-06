@@ -15,8 +15,16 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex16();
+        ex17();
 
+    }
+
+    // Write a stream program to multiply alternative numbers in an array
+    private static void ex17() {
+        int[] arr = {4,5,1,7,2,9,2};
+
+        Optional<Integer> reduce = Arrays.stream(arr).boxed().filter(e -> e % 2 == 0).reduce((a, b) -> a * b);
+        System.out.println(reduce.get());
     }
 
     // Group /Pair anagrams from a list of Strings.
