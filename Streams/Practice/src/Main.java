@@ -15,8 +15,28 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex19();
+        ex20();
 
+    }
+
+    // In a given array of integers, return true if it contains only distinct values
+    private static void ex20() {
+        int[] arr = {5,0,1,0,8,0};
+
+        // method 1
+        String collect = Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining());
+        Arrays.stream(arr).mapToObj(String::valueOf).map(x -> {
+            return collect.indexOf(x) == collect.lastIndexOf(x);
+        }).filter(x -> x == false).findFirst().ifPresent(System.out::println);
+
+        // method 2
+        boolean ans = Arrays.stream(arr)
+                          .boxed()
+                          .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                          .values()
+                          .stream()
+                          .noneMatch(count -> count > 1);  //or allMatch(count -> count == 1);
+        System.out.println(ans);
     }
 
     // Write a stream program to move all zero’s to beginning of array
