@@ -15,7 +15,25 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex18();
+        ex19();
+
+    }
+
+    // Write a stream program to move all zero’s to beginning of array
+    private static void ex19() {
+        int[] arr = {5,0,1,0,8,0};
+
+        List<Integer> collect = Arrays.stream(arr)
+                                      .boxed()
+                                      .collect(Collectors.partitioningBy(i -> i != 0))
+                                      .values()
+                                      .stream()
+                                      .flatMap(Collection::stream)
+                                      .collect(Collectors.toList());
+
+        System.out.println(collect);
+        // [0, 0, 0, 5, 1, 8]
+
 
     }
 
