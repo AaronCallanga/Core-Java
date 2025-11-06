@@ -163,6 +163,9 @@ public class Main {
 
     // Group by whatever the parameter you passed (usually a property of an object) (a function that returns a value)
     // returns Map of <FunctionType, List<Type>>/Map/Set        FunctionType - the args you passed in the groupingBy()
+    // 1. It applies keyFunction to each element.
+    // 2. Whatever that function returns becomes the key in the map.
+    // 3. Words that produce the same key go into the same list.
     private static void groupingBy() {
         Map<String, List<Employee>> groupedEmployees = employees.stream()
                                                        .collect(Collectors.groupingBy(Employee::department));

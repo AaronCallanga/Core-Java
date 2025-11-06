@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,7 +15,21 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex15();
+        ex16();
+
+    }
+
+    // Group /Pair anagrams from a list of Strings.
+    private static void ex16() {
+        String[] s = {"pat", "tap", "pan", "nap", "Team", "three", "meat"};
+
+        Collection<List<String>> ans = Arrays.stream(s)
+                                                .collect(Collectors.groupingBy(w -> Arrays.stream(w.toLowerCase().split(""))
+                                                                                          .collect(Collectors.toList())))
+                                                .values();
+        System.out.println(ans);
+        // [[tap], [pat], [three], [Team], [meat], [nap], [pan]]
+
     }
 
     // Find the products of the first two elements in an array.

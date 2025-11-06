@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DSA.iml" filepath="$PROJECT_DIR$/.idea/DSA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Searching Algorithm/Searching Algorithm.iml" filepath="$PROJECT_DIR$/Searching Algorithm/Searching Algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sorting Algorithm/Sorting Algorithm.iml" filepath="$PROJECT_DIR$/Sorting Algorithm/Sorting Algorithm.iml" />
     </modules>
   </component>
