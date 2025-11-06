@@ -15,8 +15,22 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex17();
+        ex18();
 
+    }
+
+    // Write a program to multiply 1st and last element, 2nd and 2nd last element etc
+    private static void ex18() {
+        int[] arr = {4,5,1,7,2,9};
+
+        // Use Instream.range as an iterator, then change individual item (0,1,2,3...) to the array operations (multiply)
+        List<Integer> collect = IntStream.range(0, arr.length / 2)
+                                         .map(i -> arr[i] * arr[arr.length - i - 1])
+                                         .boxed()
+                                         .collect(Collectors.toList());
+
+        System.out.println(collect);
+        // [36, 10, 7]
     }
 
     // Write a stream program to multiply alternative numbers in an array
@@ -24,7 +38,7 @@ public class Main {
         int[] arr = {4,5,1,7,2,9,2};
 
         Optional<Integer> reduce = Arrays.stream(arr).boxed().filter(e -> e % 2 == 0).reduce((a, b) -> a * b);
-        System.out.println(reduce.get());
+        System.out.println(reduce.get());   // 16
     }
 
     // Group /Pair anagrams from a list of Strings.
