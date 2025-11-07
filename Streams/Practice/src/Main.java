@@ -15,9 +15,17 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex25();
+        ex26();
         //groupByName();
 
+    }
+
+    // Find the union of two lists of integers
+    private static void ex26() {
+        int[] nums1 = {1,2,3,4,5};
+        List<Integer> nums2 = Arrays.asList(6,7,8,9,10);
+        List<Integer> ans = Stream.concat(Arrays.stream(nums1).boxed(), nums2.stream()).collect(Collectors.toList());
+        System.out.println(ans); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     }
 
     // Find and print the distinct odd numbers
