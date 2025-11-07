@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -15,9 +16,27 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex27();
+        ex28();
         //groupByName();
 
+    }
+
+    // Remove all non-numeric characters from a list.
+    private static void ex28() {
+        List<String> list = Arrays.asList("a1b2c3", "1a2b3c", "123abc");
+
+        List<String> ans = list.stream().map(w -> w.chars()
+                                                       .mapToObj(c -> (char) c)
+                                                       .filter(c -> Character.isDigit(c))
+                                                       .map(String::valueOf)
+                                                       .collect(Collectors.joining()))
+                                   .collect(Collectors.toList());
+        System.out.println(ans); // [123, 123, 123]
+
+        // Method 2
+        Pattern pattern = Pattern.compile("[^0-9]");
+        List<String> ans2 = list.stream().map(x -> pattern.matcher(x).replaceAll("")).collect(Collectors.toList());
+        System.out.println(ans2);
     }
 
     // Find the kth smallest element in a list of integers.
