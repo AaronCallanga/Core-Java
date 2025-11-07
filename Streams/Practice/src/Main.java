@@ -16,9 +16,16 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex29();
+        ex30();
         //groupByName();
 
+    }
+
+    // Convert a list of strings to uppercase.
+    private static void ex30() {
+        List<String> list = Arrays.asList("breaking bad", "gAmE oF tHrOnEs", "big BAng THEORy");
+        List<String> ans = list.stream().map(String::toUpperCase).collect(Collectors.toList());
+        System.out.println(ans); // [BREAKING BAD, GAME OF THRONES, BIG BANG THEORY]
     }
 
     // Find and print strings containing only digits
