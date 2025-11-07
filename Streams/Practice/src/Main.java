@@ -15,8 +15,27 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex20();
+        ex21();
+        //groupByName();
 
+    }
+
+    // Given the string[] group the strings based on the middle character
+    private static void ex21() {
+        String[] str = {"ewe", "jji", "jhj", "kwk", "aha"};
+        Map<Character, List<String>> ans = Arrays.stream(str).collect(Collectors.groupingBy((word) -> word.chars().mapToObj(c -> (char) c).skip(1).findFirst().get(), Collectors.toList()));
+        System.out.println(ans);
+        // {w=[ewe, kwk], h=[jhj, aha], j=[jji]}
+    }
+
+    private static void groupByName() {
+        String[] names = {"Aaron Dave", "Aaron bananini", "Kyle wew", "kyle test", "Unique wow"};
+
+        Map<Optional<String>, List<String>> collect = Arrays.stream(names).collect(Collectors.groupingBy(
+                n -> Arrays.stream(n.toLowerCase().split(" ")).findFirst()
+                , Collectors.toList()
+                                                                                                        ));
+        System.out.println(collect);
     }
 
     // In a given array of integers, return true if it contains only distinct values

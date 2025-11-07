@@ -59,6 +59,9 @@ public class Main {
         //counting();
         //summarizingType();
         collectingAndThen();
+        noneMatch();
+        anyMatch();
+        allMatch();
 
 
     }
