@@ -15,9 +15,18 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex26();
+        ex27();
         //groupByName();
 
+    }
+
+    // Find the kth smallest element in a list of integers.
+    private static void ex27() {
+        int k = 3;
+        List<Integer> list = Arrays.asList(7,1,6,2,1,3,4,5);
+
+        Integer i = list.stream().sorted().skip(k - 1).findFirst().get();
+        System.out.println(i); // 2
     }
 
     // Find the union of two lists of integers
