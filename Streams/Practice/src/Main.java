@@ -15,15 +15,27 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex21();
+        ex22();
         //groupByName();
 
+    }
+
+    // Find the sum of all the elements in a list.
+    private static void ex22() {
+        List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        int sum = nums.stream().mapToInt(Integer::intValue).sum();
+        int sum2 = nums.stream().reduce(Integer::sum).get();
+        System.out.println(sum);
     }
 
     // Given the string[] group the strings based on the middle character
     private static void ex21() {
         String[] str = {"ewe", "jji", "jhj", "kwk", "aha"};
-        Map<Character, List<String>> ans = Arrays.stream(str).collect(Collectors.groupingBy((word) -> word.chars().mapToObj(c -> (char) c).skip(1).findFirst().get(), Collectors.toList()));
+        Map<Character, List<String>> ans = Arrays.stream(str)
+                                                 .collect(Collectors.groupingBy((word) -> word.chars().mapToObj(c -> (char) c).skip(1).findFirst().get()));
+        Map<Object, List<String>> map = Arrays.asList(str).stream()
+                                              .collect(Collectors.groupingBy(x->x.charAt(x.length()/2))); // even substring(1,2) / charAt(index)
         System.out.println(ans);
         // {w=[ewe, kwk], h=[jhj, aha], j=[jji]}
     }
