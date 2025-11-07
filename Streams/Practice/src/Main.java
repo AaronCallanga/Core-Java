@@ -15,9 +15,17 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex22();
+        ex23();
         //groupByName();
 
+    }
+
+    // Sort a list of strings in alphabetical order
+    private static void ex23() {
+        List<String> str = Arrays.asList("Zudio", "Puma", "Addidas", "MAC", "H&M");
+
+        List<String> ans = str.stream().sorted().collect(Collectors.toList());
+        System.out.println(ans); // [Addidas, H&M, MAC, Puma, Zudio]
     }
 
     // Find the sum of all the elements in a list.
@@ -26,7 +34,7 @@ public class Main {
 
         int sum = nums.stream().mapToInt(Integer::intValue).sum();
         int sum2 = nums.stream().reduce(Integer::sum).get();
-        System.out.println(sum);
+        System.out.println(sum); // 55
     }
 
     // Given the string[] group the strings based on the middle character
