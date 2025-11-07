@@ -15,10 +15,19 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex23();
+        ex24();
         //groupByName();
 
     }
+
+    // Convert a list of integers to a list of their squares
+    private static void ex24() {
+        List<Integer> nums = Arrays.asList(1,2,3,4,5);
+
+        List<Integer> ans = nums.stream().map(i -> i * i).collect(Collectors.toList());
+        System.out.println(ans); // [1, 4, 9, 16, 25]
+    }
+
 
     // Sort a list of strings in alphabetical order
     private static void ex23() {
