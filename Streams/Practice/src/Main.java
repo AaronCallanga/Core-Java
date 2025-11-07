@@ -15,9 +15,17 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex24();
+        ex25();
         //groupByName();
 
+    }
+
+    // Find and print the distinct odd numbers
+    private static void ex25() {
+        List<Integer> nums = Arrays.asList(1,2,5,1,2,3,6,3,5,7,1);
+
+        List<Integer> ans = nums.stream().filter(x -> x%2 != 0).distinct().collect(Collectors.toList());
+        System.out.println(ans); // [1, 2, 5, 3, 6, 7]
     }
 
     // Convert a list of integers to a list of their squares
