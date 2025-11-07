@@ -16,9 +16,17 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex28();
+        ex29();
         //groupByName();
 
+    }
+
+    // Find and print strings containing only digits
+    private static void ex29() {
+        List<String> list = Arrays.asList("123", "abc", "123abc", "45");
+
+        List<String> collect = list.stream().filter(s -> s.matches("\\d+")).collect(Collectors.toList());
+        System.out.println(collect); // [123, 45]
     }
 
     // Remove all non-numeric characters from a list.
@@ -33,10 +41,14 @@ public class Main {
                                    .collect(Collectors.toList());
         System.out.println(ans); // [123, 123, 123]
 
-        // Method 2
+        // Method 2 \D == [^0-9]
         Pattern pattern = Pattern.compile("[^0-9]");
         List<String> ans2 = list.stream().map(x -> pattern.matcher(x).replaceAll("")).collect(Collectors.toList());
-        System.out.println(ans2);
+        System.out.println(ans2); // [123, 123, 123]
+
+        // Method 3
+        List<String> result = list.stream().map(x -> x.replaceAll("\\D" , "")).toList();
+        System.out.println(result);
     }
 
     // Find the kth smallest element in a list of integers.
