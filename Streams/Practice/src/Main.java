@@ -16,10 +16,18 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
+        ex35();
+    }
 
-        ex34();
-        //groupByName();
+    // Group each names by first name
+    private static void ex35() {
+        String[] names = {"Aaron Dave", "Aaron bananini", "Kyle wew", "kyle test", "Unique wow"};
 
+        Map<Optional<String>, List<String>> collect = Arrays.stream(names).collect(Collectors.groupingBy(
+                n -> Arrays.stream(n.toLowerCase().split(" ")).findFirst()
+                , Collectors.toList()
+                                                                                                        ));
+        System.out.println(collect);
     }
 
     // Generate the first 10 numbers of the Fibonacci Sequence
@@ -172,15 +180,6 @@ public class Main {
         // {w=[ewe, kwk], h=[jhj, aha], j=[jji]}
     }
 
-    private static void groupByName() {
-        String[] names = {"Aaron Dave", "Aaron bananini", "Kyle wew", "kyle test", "Unique wow"};
-
-        Map<Optional<String>, List<String>> collect = Arrays.stream(names).collect(Collectors.groupingBy(
-                n -> Arrays.stream(n.toLowerCase().split(" ")).findFirst()
-                , Collectors.toList()
-                                                                                                        ));
-        System.out.println(collect);
-    }
 
     // In a given array of integers, return true if it contains only distinct values
     private static void ex20() {
