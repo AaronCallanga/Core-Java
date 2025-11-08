@@ -16,9 +16,20 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex31();
+        ex32();
         //groupByName();
 
+    }
+
+    // Find the intersection of two lists using Java streams
+    private static void ex32() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> list1 = Arrays.asList(3, 5, 6, 7);
+
+        List<Integer> collect = list.stream().filter(i -> list1.contains(i)).collect(Collectors.toList());
+        System.out.println(collect); // [3, 5]
+        List<Integer> collect1 = list.stream().filter(i -> list1.indexOf(i) != -1).collect(Collectors.toList());
+        System.out.println(collect1);   // [3, 5]
     }
 
     // Calculate the average of all the numbers.
@@ -26,7 +37,7 @@ public class Main {
         List<Integer> list = Arrays.asList(1,2,3,4,5);
 
         double asDouble = list.stream().mapToDouble(i -> i).average().orElse(0);
-        System.out.println(asDouble);
+        System.out.println(asDouble); // 3
     }
 
     // Convert a list of strings to uppercase.
