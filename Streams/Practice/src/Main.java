@@ -16,9 +16,17 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-        ex30();
+        ex31();
         //groupByName();
 
+    }
+
+    // Calculate the average of all the numbers.
+    private static void ex31() {
+        List<Integer> list = Arrays.asList(1,2,3,4,5);
+
+        double asDouble = list.stream().mapToDouble(i -> i).average().orElse(0);
+        System.out.println(asDouble);
     }
 
     // Convert a list of strings to uppercase.
