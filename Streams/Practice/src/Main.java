@@ -14,10 +14,34 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        ex32();
+        ex33();
         //groupByName();
+
+    }
+
+    // Find the occurrence of domains using Java streams
+    record Employee(String name, String email) {}
+    private static void ex33() {
+        List<Employee> employees = Arrays.asList(
+                new Employee("Sam", "sam@gmail.com"),
+                new Employee("Adam", "adam@yahoo.com"),
+                new Employee("Peter", "peter@gmail.com")
+                                           );
+
+        // Group by email domain
+        Map<String, List<Employee>> collect = employees.stream()
+                                                       .collect(Collectors.groupingBy(e -> e.email.substring(
+                                                               e.email.indexOf("@") + 1, e.email.indexOf("."))));
+        System.out.println(collect); // gmail=[Employee[name=Sam, email=sam@gmail.com], Employee[name=Peter, email=peter@gmail.com]], yahoo=[Employee[name=Adam, email=adam@yahoo.com]]}
+
+        // Count occurences per domain
+        Map<String, Long> collect1 = employees.stream()
+                                              .collect(Collectors.groupingBy(e -> e.email.substring(e.email.indexOf("@")),
+                                                      Collectors.counting()));
+        System.out.println(collect1); // {@gmail.com=2, @yahoo.com=1}
 
     }
 
