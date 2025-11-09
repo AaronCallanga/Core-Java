@@ -16,18 +16,30 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        ex35();
+        ex36();
+    }
+
+    // Transform Person object stream into a single string
+    record Person(String name, int age) {}
+    private static void ex36() {
+        List<Person> people = Arrays.asList(
+                new Person("Peter", 23),
+                new Person("Pamela", 24),
+                new Person("David", 28)
+                                           );
+        String collect = people.stream().map(person -> person.name.toUpperCase()).collect(Collectors.joining(" | "));
+        System.out.println(collect); // PETER | PAMELA | DAVID
     }
 
     // Group each names by first name
     private static void ex35() {
         String[] names = {"Aaron Dave", "Aaron bananini", "Kyle wew", "kyle test", "Unique wow"};
 
-        Map<Optional<String>, List<String>> collect = Arrays.stream(names).collect(Collectors.groupingBy(
-                n -> Arrays.stream(n.toLowerCase().split(" ")).findFirst()
+        Map<String, List<String>> collect = Arrays.stream(names).collect(Collectors.groupingBy(
+                n -> Arrays.stream(n.toLowerCase().split(" ")).findFirst().get()
                 , Collectors.toList()
                                                                                                         ));
-        System.out.println(collect);
+        System.out.println(collect); // {kyle=[Kyle wew, kyle test], aaron=[Aaron Dave, Aaron bananini], unique=[Unique wow]}
     }
 
     // Generate the first 10 numbers of the Fibonacci Sequence
