@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,7 +19,17 @@ public class Main {
     record Employee(String name, String email) {}
 
     public static void main(String[] args) {
-        ex39();
+        ex40();
+    }
+
+    // Using Supplier to supply streams. Allowing to use streams multiple times through supplying
+    private static void ex40() {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        Supplier<Stream<String>> supplier = () -> names.stream(); // or names::stream
+        // Consumption #1
+        supplier.get().forEach(System.out::println);
+        // Consumption #2
+        supplier.get().map(String::toUpperCase).forEach(System.out::println);
     }
 
     // Multiply array elements
@@ -289,7 +300,8 @@ public class Main {
 
         Collection<List<String>> ans = Arrays.stream(s)
                                                 .collect(Collectors.groupingBy(w -> Arrays.stream(w.toLowerCase().split(""))
-                                                                                          .collect(Collectors.toList())))
+                                                                                          .collect(Collectors.joining()))
+                                                        )
                                                 .values();
         System.out.println(ans);
         // [[tap], [pat], [three], [Team], [meat], [nap], [pan]]
