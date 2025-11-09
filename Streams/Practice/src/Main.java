@@ -14,9 +14,24 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
+    record Person(String name, String city, int age) {}
+    record Employee(String name, String email) {}
 
     public static void main(String[] args) {
-        ex37();
+        ex38();
+    }
+
+    // Convert a list to a map, group by city
+    private static void ex38() {
+        List<Person> people = Arrays.asList(
+                new Person("Peter", "Pune",23),
+                new Person("Pamela", "Kolkata",24),
+                new Person("David", "Pune",28),
+                new Person("Payel", "Bangalore", 20)
+                                           );
+        Map<String, List<Person>> collect = people.stream().collect(Collectors.groupingBy(Person::city));
+        System.out.println(collect);
+        // {Kolkata=[Person[name=Pamela, city=Kolkata, age=24]], Pune=[Person[name=Peter, city=Pune, age=23], Person[name=David, city=Pune, age=28]], Bangalore=[Person[name=Payel, city=Bangalore, age=20]]}
     }
 
     // Group list of strings by their first character and count the number of strings
@@ -27,15 +42,16 @@ public class Main {
     }
 
     // Transform Person object stream into a single string
-    record Person(String name, int age) {}
+
     private static void ex36() {
         List<Person> people = Arrays.asList(
-                new Person("Peter", 23),
-                new Person("Pamela", 24),
-                new Person("David", 28)
+                new Person("Peter", "Pune",23),
+                new Person("Pamela", "Kolkata",24),
+                new Person("David", "Pune",28),
+                new Person("Payel", "Bangalore", 20)
                                            );
         String collect = people.stream().map(person -> person.name.toUpperCase()).collect(Collectors.joining(" | "));
-        System.out.println(collect); // PETER | PAMELA | DAVID
+        System.out.println(collect); // PETER | PAMELA | DAVID | PAYEL
     }
 
     // Group each names by first name
@@ -59,7 +75,6 @@ public class Main {
     }
 
     // Find the occurrence of domains using Java streams
-    record Employee(String name, String email) {}
     private static void ex33() {
         List<Employee> employees = Arrays.asList(
                 new Employee("Sam", "sam@gmail.com"),
