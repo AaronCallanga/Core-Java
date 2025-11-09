@@ -18,7 +18,15 @@ public class Main {
     record Employee(String name, String email) {}
 
     public static void main(String[] args) {
-        ex38();
+        ex39();
+    }
+
+    // Multiply array elements
+    private static void ex39() {
+        int[] arr = {1, 2, 3, 4, 5};
+
+        Optional<Integer> reduce = Arrays.stream(arr).boxed().reduce((a, b) -> a * b);
+        System.out.println(reduce.get()); // 120
     }
 
     // Convert a list to a map, group by city
