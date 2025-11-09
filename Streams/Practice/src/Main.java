@@ -16,7 +16,14 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        ex36();
+        ex37();
+    }
+
+    // Group list of strings by their first character and count the number of strings
+    private static void ex37() {
+        List<String> list = Arrays.asList("apple", "banana", "apricot", "cherry", "blueberry", "avocado");
+        Map<Character, Long> collect = list.stream().collect(Collectors.groupingBy(c -> c.charAt(0), Collectors.counting()));
+        System.out.println(collect); // {a=3, b=2, c=1}
     }
 
     // Transform Person object stream into a single string
