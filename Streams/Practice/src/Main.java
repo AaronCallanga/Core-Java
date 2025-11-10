@@ -35,10 +35,22 @@ public class Main {
      */
     public static void main(String[] args) {
         //ex46();
-        ex1_hard();
+        ex2_hard();
     }
 
+    // Windowing Without Loops
+    private static void ex2_hard() {
+        List<Integer> list = List.of(1,2,3,4,5);
+        List<int[]> list1 = IntStream.range(0, list.size() - 1)
+                                     .mapToObj(i -> new int[]{list.get(i), list.get(i + 1)})
+                                     .toList();
+        list1.forEach(e -> System.out.print(Arrays.toString(e)));
+        System.out.println(); // [1, 2][2, 3][3, 4][4, 5]
 
+        List<List<Integer>> collect = list1.stream().map(x -> List.of(x[0], x[1])).collect(Collectors.toList());
+        System.out.println(collect); // [[1, 2], [2, 3], [3, 4], [4, 5]]
+
+    }
 
     // Given large text input, find the Top 3 Most Frequent Words
     private static void ex1_hard() {
