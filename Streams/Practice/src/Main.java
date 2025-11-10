@@ -18,8 +18,31 @@ public class Main {
     record Person(String name, String city, int age) {}
     record Employee(String name, String email) {}
 
+    /** @Projects:
+    Log analyzer
+        Read large log files, extract fields, compute counts per IP, top N slowest endpoints, grouped by date.
+        Handle streaming I/O, memory constraints, parallelism.
+    Product catalog aggregator
+        From JSON files (or mocked objects), group products by category, compute price stats, top sellers.
+    Mini search engine
+        Tokenize documents, build inverted index using streams + collectors, support simple queries.
+    API data pipeline
+        Fetch paginated API results, flatten, transform, aggregate, and export CSV.
+     */
     public static void main(String[] args) {
-        ex40();
+        ex42();
+    }
+
+
+
+    // Convert a list of string to uppercase and then concatenate
+    private static void ex41() {
+        char[] alphabets = {'a', 'b', 'c', 'd'};
+        String collect = IntStream.range(0, alphabets.length)
+                                  .mapToObj(i -> alphabets[i])
+                                  .map(c -> c.toString().toUpperCase())
+                                  .collect(Collectors.joining(" "));
+        System.out.println(collect); // A B C D
     }
 
     // Using Supplier to supply streams. Allowing to use streams multiple times through supplying
