@@ -33,7 +33,20 @@ public class Main {
         ex42();
     }
 
-
+    // Map vs Flatmap
+    private static void ex42() {
+        List<List<String>> colors = Arrays.asList(
+                List.of("Red", "Blue"),
+                List.of("Green"),
+                List.of("Yellow", "Indigo", "Black")
+                                                 );
+        List<List<String>> collect = colors.stream().map(Function.identity()).collect(Collectors.toList());
+        System.out.println(collect); // [[Red, Blue], [Green], [Yellow, Indigo, Black]]
+        List<String> collect2 = colors.stream()
+                                      .flatMap(x -> x.stream().map(String::toUpperCase)) // flatmap accepts stream as args
+                                      .collect(Collectors.toList());
+        System.out.println(collect2); // [Red, Blue, Green, Yellow, Indigo, Black]
+    }
 
     // Convert a list of string to uppercase and then concatenate
     private static void ex41() {
