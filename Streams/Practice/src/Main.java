@@ -30,7 +30,25 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex42();
+        ex43();
+    }
+
+    // Best Practices: Divide complex stream pipelines
+    private static void ex43() {
+        List<Person> people = Arrays.asList(
+                new Person("Peter", "Pune",23),
+                new Person("Pamela", "Kolkata",24),
+                new Person("David", "Pune",28),
+                new Person("Payel", "Bangalore", 20)
+                                           );
+        // Getting all unique Person's name whose age is >= 20 and in sorted manner
+        // AVOID!!
+        List<String> ans = people.stream().filter(p -> p.age() >= 20).map(Person::name).distinct().sorted().collect(Collectors.toList());
+        System.out.println(ans); // [David, Pamela, Payel, Peter]
+        // DO: Divide it
+        List<String> filtered = people.stream().filter(e -> e.age() >= 20).map(Person::name).collect(Collectors.toList());
+        List<String> ans2 = filtered.stream().distinct().sorted().collect(Collectors.toList());
+        System.out.println(ans2); // [David, Pamela, Payel, Peter]
     }
 
     // Map vs Flatmap
