@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
 public class Main {
     record Person(String name, String city, int age) {}
     record Employee(String name, String email) {}
+    record Product(int id, String name, int price, String category) {}
 
     /** @Projects:
     Log analyzer
@@ -30,7 +32,37 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex43();
+        ex44();
+    }
+
+    // Implement filter, reduction, average, min in a program
+    private static void ex44() {
+        List<Product> products = Arrays.asList(
+                new Product(1, "Lifeboy", 20, "Soap"),
+                new Product(2, "Portronics", 200, "Adapter"),
+                new Product(3, "SurExcel", 90, "Washing Powder"),
+                new Product(4, "Yamaha", 8000, "Guitar"),
+                new Product(5, "Ikigai", 500, "Book")
+                                              );
+        // Print the name of the products whose price is below a certain threshold (e.g 100)
+        List<String> collect = products.stream().filter(p -> p.price() < 100).map(Product::name).collect(Collectors.toList());
+        System.out.println(collect); // [Lifeboy, SurExcel]
+
+        // Create a new list containing products' price with reduction of 20%
+        List<Double> collect1 = products.stream().map(p -> p.price() * 0.80).collect(Collectors.toList());
+        System.out.println(collect1); // [16.0, 160.0, 72.0, 6400.0, 400.0]
+
+        // Calculate the average price of all products
+        OptionalDouble average = products.stream().mapToDouble(Product::price).average();
+        System.out.println(average.getAsDouble());  // 1762.0
+
+        // Find the product with the highest and lowest price
+        Product highestPrice = products.stream().sorted(Comparator.comparing(Product::price).reversed()).findFirst().get();
+        Product highestPrice2 = products.stream().max(Comparator.comparing(Product::price)).get();
+        Product lowestPrice = products.stream().min(Comparator.comparing(Product::price)).get();
+        System.out.println(highestPrice); // Product[id=4, name=Yamaha, price=8000, category=Guitar]
+        System.out.println(highestPrice2); // Product[id=4, name=Yamaha, price=8000, category=Guitar]
+        System.out.println(lowestPrice); // Product[id=1, name=Lifeboy, price=20, category=Soap]
     }
 
     // Best Practices: Divide complex stream pipelines
