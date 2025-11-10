@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -35,8 +37,9 @@ public class Main {
         ex44();
     }
 
+
     // Implement filter, reduction, average, min in a program
-    private static void ex44() {
+    private static void ex45() {
         List<Product> products = Arrays.asList(
                 new Product(1, "Lifeboy", 20, "Soap"),
                 new Product(2, "Portronics", 200, "Adapter"),
@@ -63,6 +66,18 @@ public class Main {
         System.out.println(highestPrice); // Product[id=4, name=Yamaha, price=8000, category=Guitar]
         System.out.println(highestPrice2); // Product[id=4, name=Yamaha, price=8000, category=Guitar]
         System.out.println(lowestPrice); // Product[id=1, name=Lifeboy, price=20, category=Soap]
+    }
+
+    // List to Set and to Map
+    private static void ex44() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "pineapple", "banana");
+        Set<String> collect = fruits.stream().collect(Collectors.toSet());
+        System.out.println(collect); // [banana, orange, apple, pineapple]
+        Map<String, String> collect1 = fruits.stream()
+                                           .collect(Collectors.toMap(fruit -> UUID.randomUUID().toString().substring(0, 8),
+                                                   Function.identity())); // {3d2225f9=banana, 2b23002a=orange, a3775bbb=pineapple, 3add86e9=apple, bc8a19c8=banana}
+
+        System.out.println(collect1);
     }
 
     // Best Practices: Divide complex stream pipelines
