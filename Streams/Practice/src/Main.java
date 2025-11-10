@@ -34,7 +34,29 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex44();
+        //ex46();
+        ex1_hard();
+    }
+
+
+
+    // Given large text input, find the Top 3 Most Frequent Words
+    private static void ex1_hard() {
+        String frequentWords = """
+                Java stream processing is great. Java streams can handle data efficiently.
+                Stream operations make Java code clean. Data is the key here. More data, more fun.
+                Parallel streams are powerful in Java. Stream data manipulation is an art.
+                Java developers love streams for data tasks.
+                """;
+        Map<String, Long> group = Arrays.stream(frequentWords.split(" ")) // can do .map(String::toLowerCase)
+                                          .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        Map<String, Long> collect = group.entrySet()
+                                    .stream()
+                                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+//                                    .map(Map.Entry::getKey)  // for single String only
+                                    .limit(3)
+                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        System.out.println(collect);  // {Java=3, data=3, streams=3}
     }
 
 
