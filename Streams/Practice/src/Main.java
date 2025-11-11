@@ -34,8 +34,16 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        //ex46();
-        ex2_hard();
+        ex46();
+        //ex2_hard();
+    }
+
+    // Given a list of names, find all the names that start with letter 'A', and print its count
+    private static void ex46() {
+        List<String> names = Arrays.asList("Ema", "Bob", "Alice", "Anna");
+        long a = names.stream().filter(n -> n.startsWith("A")).count();
+        System.out.println(a); // 2
+
     }
 
     // Windowing Without Loops
