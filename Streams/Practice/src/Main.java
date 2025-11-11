@@ -35,8 +35,21 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex49();
+        ex50();
         //ex2_hard();
+    }
+
+    // Print distinct numbers which starts with "1" in descending order
+    private static void ex50() {
+        int[] arr = {12,34,11,34,67,121,121,52,78,114,565,1643,11};
+        List<Integer> collect = Arrays.stream(arr)
+                                      .mapToObj(String::valueOf)
+                                      .filter(i -> i.startsWith("1"))
+                                      .distinct()
+                                      .map(Integer::valueOf)
+                                      .sorted(Comparator.reverseOrder())
+                                      .collect(Collectors.toList());
+        System.out.println(collect); // [1643, 121, 12, 114, 11]
     }
 
     // Print the middle character of a given String
