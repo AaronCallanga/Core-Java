@@ -34,8 +34,16 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex46();
+        ex47();
         //ex2_hard();
+    }
+
+    // Iterate vs Generate - Infinite Stream
+    private static void ex47() {
+        // Use generate if you just want it to supply a value
+        Stream<Double> generate = Stream.generate(Math::random);
+        // Use iterate if it demonstrate a pattern e.g i + 1
+        Stream<Integer> iterate = Stream.iterate(0, i -> i + 1);
     }
 
     // Given a list of names, find all the names that start with letter 'A', and print its count
