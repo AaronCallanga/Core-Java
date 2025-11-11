@@ -11,6 +11,7 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,8 +35,23 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex48();
+        ex49();
         //ex2_hard();
+    }
+
+    // Print the middle character of a given String
+    private static void ex49() {
+        String s = "travel"; // education
+        // Method 1 - if string.length() is even
+        Optional<Character> first = s.chars().mapToObj(c -> (char) c).skip(s.length() / 2).findFirst();
+        System.out.println(first.get()); // Education - a
+
+        // Method 2 - Handles both even and odd length
+        String collect = Arrays.stream(s.split(""))
+                               .skip((s.length() % 2 == 0) ? s.length() / 2 - 1 : s.length() / 2)
+                               .limit((s.length() % 2 == 0) ? 2 : 1)
+                               .collect(Collectors.joining());
+        System.out.println(collect); // Travel - av
     }
 
     // Calculate average of age of male and female of employees
