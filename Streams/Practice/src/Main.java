@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 public class Main {
     record Person(String name, String city, int age, String gender) {}
-    record Employee(String name, String email) {}
+    record Employee(String name, String email, Double salary) {}
     record Product(int id, String name, int price, String category) {}
 
     /** @Projects:
@@ -39,8 +39,21 @@ public class Main {
         //ex2_hard();
     }
 
-    // Print distinct numbers which starts with "1" in descending order
+    // Print the Employees' name and salary whose salary >= 2000 and increase it by 1000
     private static void ex50() {
+        List<Employee> employees = Arrays.asList(
+                new Employee("Sam", "sam@gmail.com", 2000.0),
+                new Employee("Adam", "adam@yahoo.com", 3000.0),
+                new Employee("Peter", "peter@gmail.com", 1500.0)
+                                                );
+        Map<String, Double> collect = employees.stream()
+                                               .filter(e -> e.salary() >= 2000) // then use peak if you have setter instead of collecting as map
+                                               .collect(Collectors.toMap(Employee::name, e -> e.salary() + 1000));
+        System.out.println(collect); // {Adam=4000.0, Sam=3000.0}
+    }
+
+    // Print distinct numbers which starts with "1" in descending order
+    private static void ex49_B() {
         int[] arr = {12,34,11,34,67,121,121,52,78,114,565,1643,11};
         List<Integer> collect = Arrays.stream(arr)
                                       .mapToObj(String::valueOf)
@@ -292,9 +305,9 @@ public class Main {
     // Find the occurrence of domains using Java streams
     private static void ex33() {
         List<Employee> employees = Arrays.asList(
-                new Employee("Sam", "sam@gmail.com"),
-                new Employee("Adam", "adam@yahoo.com"),
-                new Employee("Peter", "peter@gmail.com")
+                new Employee("Sam", "sam@gmail.com", 2000.0),
+                new Employee("Adam", "adam@yahoo.com", 3000.0),
+                new Employee("Peter", "peter@gmail.com", 1500.0)
                                            );
 
         // Group by email domain
