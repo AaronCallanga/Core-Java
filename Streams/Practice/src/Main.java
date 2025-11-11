@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
-    record Person(String name, String city, int age) {}
+    record Person(String name, String city, int age, String gender) {}
     record Employee(String name, String email) {}
     record Product(int id, String name, int price, String category) {}
 
@@ -34,8 +34,24 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex47();
+        ex48();
         //ex2_hard();
+    }
+
+    // Calculate average of age of male and female of employees
+    private static void ex48() {
+        List<Person> people = Arrays.asList(
+                new Person("Peter", "Pune",23, "M"),
+                new Person("Pamela", "Kolkata",24, "F"),
+                new Person("David", "Pune",28, "M"),
+                new Person("Payel", "Bangalore", 20, "F")
+                                           );
+        Map<String, Double> collect = people.stream()
+                                            .collect(Collectors.groupingBy(
+                                                    Person::gender,
+                                                    Collectors.averagingDouble(Person::age)
+                                                                          ));
+        System.out.println(collect); // {F=22.0, M=25.5}
     }
 
     // Iterate vs Generate - Infinite Stream
@@ -133,10 +149,10 @@ public class Main {
     // Best Practices: Divide complex stream pipelines
     private static void ex43() {
         List<Person> people = Arrays.asList(
-                new Person("Peter", "Pune",23),
-                new Person("Pamela", "Kolkata",24),
-                new Person("David", "Pune",28),
-                new Person("Payel", "Bangalore", 20)
+                new Person("Peter", "Pune",23, "M"),
+                new Person("Pamela", "Kolkata",24, "F"),
+                new Person("David", "Pune",28, "M"),
+                new Person("Payel", "Bangalore", 20, "F")
                                            );
         // Getting all unique Person's name whose age is >= 20 and in sorted manner
         // AVOID!!
@@ -194,10 +210,10 @@ public class Main {
     // Convert a list to a map, group by city
     private static void ex38() {
         List<Person> people = Arrays.asList(
-                new Person("Peter", "Pune",23),
-                new Person("Pamela", "Kolkata",24),
-                new Person("David", "Pune",28),
-                new Person("Payel", "Bangalore", 20)
+                new Person("Peter", "Pune",23, "M"),
+                new Person("Pamela", "Kolkata",24, "F"),
+                new Person("David", "Pune",28, "M"),
+                new Person("Payel", "Bangalore", 20, "F")
                                            );
         Map<String, List<Person>> collect = people.stream().collect(Collectors.groupingBy(Person::city));
         System.out.println(collect);
@@ -215,10 +231,10 @@ public class Main {
 
     private static void ex36() {
         List<Person> people = Arrays.asList(
-                new Person("Peter", "Pune",23),
-                new Person("Pamela", "Kolkata",24),
-                new Person("David", "Pune",28),
-                new Person("Payel", "Bangalore", 20)
+                new Person("Peter", "Pune",23, "M"),
+                new Person("Pamela", "Kolkata",24, "F"),
+                new Person("David", "Pune",28, "M"),
+                new Person("Payel", "Bangalore", 20, "F")
                                            );
         String collect = people.stream().map(person -> person.name.toUpperCase()).collect(Collectors.joining(" | "));
         System.out.println(collect); // PETER | PAMELA | DAVID | PAYEL
