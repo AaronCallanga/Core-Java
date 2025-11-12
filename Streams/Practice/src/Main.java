@@ -20,7 +20,9 @@ import java.util.stream.Stream;
 
 public class Main {
     record Person(String name, String city, int age, String gender) {}
+    record Person2(String firstName, String lastName, int age) {}
     record Employee(String name, String email, Double salary) {}
+    record Employee2(String name, String department) {}
     record Product(int id, String name, int price, String category) {}
 
     /** @Projects:
@@ -35,8 +37,29 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex52();
+        ex53();
         //ex2_hard();
+    }
+
+    // Find the department with maximum people
+    private static void ex53() {
+        List<Employee2> list = Arrays.asList(
+                new Employee2("Alice", "HR"),
+                new Employee2("Bob", "IT"),
+                new Employee2("Charlie", "IT"),
+                new Employee2("David", "Finance"),
+                new Employee2("Eve", "IT"),
+                new Employee2("Frank", "Finance"),
+                new Employee2("Grace", "HR")
+                                            );
+        String department = list.stream()
+                         .collect(Collectors.groupingBy(
+                                 Employee2::department,
+                                 Collectors.counting()
+                                                       ))
+                         .entrySet()
+                         .stream().max(Map.Entry.comparingByValue()).get().getKey();
+        System.out.println(department); // IT
     }
 
     // Print the count of a particular substring
@@ -51,7 +74,6 @@ public class Main {
     }
 
     // Return comparison of a Person object based on last name and then age
-    record Person2(String firstName, String lastName, int age) {}
     private static void ex51() {
         List<Person2> list = Arrays.asList(
                 new Person2("Bobby", "Smith", 23),
