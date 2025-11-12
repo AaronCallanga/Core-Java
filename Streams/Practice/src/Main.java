@@ -22,7 +22,7 @@ public class Main {
     record Person(String name, String city, int age, String gender) {}
     record Person2(String firstName, String lastName, int age) {}
     record Employee(String name, String email, Double salary) {}
-    record Employee2(String name, String department) {}
+    record Employee2(String name, String department, Double salary) {}
     record Product(int id, String name, int price, String category) {}
 
     /** @Projects:
@@ -37,20 +37,40 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex53();
+        ex54();
         //ex2_hard();
+    }
+
+    // Find the average salary from each department
+    private static void ex54() {
+        List<Employee2> list = Arrays.asList(
+                new Employee2("Alice", "HR", 2000.0),
+                new Employee2("Bob", "IT", 3000.0),
+                new Employee2("Charlie", "IT", 2000.0),
+                new Employee2("David", "Finance", 1500.0),
+                new Employee2("Eve", "IT", 4000.0),
+                new Employee2("Frank", "Finance", 1800.0),
+                new Employee2("Grace", "HR", 2300.0)
+                                            );
+        Map<String, Double> collect = list.stream()
+                                          .collect(Collectors.groupingBy(
+                                                  Employee2::department,
+                                                  Collectors.averagingDouble(Employee2::salary)
+                                                                        ));
+        System.out.println(collect);
+
     }
 
     // Find the department with maximum people
     private static void ex53() {
         List<Employee2> list = Arrays.asList(
-                new Employee2("Alice", "HR"),
-                new Employee2("Bob", "IT"),
-                new Employee2("Charlie", "IT"),
-                new Employee2("David", "Finance"),
-                new Employee2("Eve", "IT"),
-                new Employee2("Frank", "Finance"),
-                new Employee2("Grace", "HR")
+                new Employee2("Alice", "HR", 2000.0),
+                new Employee2("Bob", "IT", 3000.0),
+                new Employee2("Charlie", "IT", 2500.0),
+                new Employee2("David", "Finance", 1500.0),
+                new Employee2("Eve", "IT", 4000.0),
+                new Employee2("Frank", "Finance", 1800.0),
+                new Employee2("Grace", "HR", 2300.0)
                                             );
         String department = list.stream()
                          .collect(Collectors.groupingBy(
