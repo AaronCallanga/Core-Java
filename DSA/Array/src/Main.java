@@ -9,8 +9,7 @@ public class Main {
     private static void p2() {
         int arr[] = {1, 2, 3, 4, 5, 6};
         int n = 2;
-
-
+        // Method 1 - Shift elements O(n * d) Time and O(1) Space
         for (int i = 0; i < n; i++) {
             // Take note of the first element
             int firstElement = arr[0];
@@ -22,6 +21,20 @@ public class Main {
             arr[arr.length - 1] = firstElement;
         }
         System.out.println(Arrays.toString(arr)); // [3, 4, 5, 6, 1, 2]
+
+        // Method 2 - Copying the array O(n) Time and O(n) Space
+        int arr2[] = {1, 2, 3, 4, 5, 6};
+        int n2 = 2;
+        int cpy[] = new int[arr2.length];
+        // Copy the array starting from arr[n2]
+        for (int i = 0; i < arr2.length - n2; i++) {
+            cpy[i] = arr2[i + n2];
+        }
+        // Copy the n first element
+        for (int i = 0; i < n2; i++) {
+            cpy[i + arr.length - n2] = arr2[i];
+        }
+        System.out.println(Arrays.toString(cpy)); // or recopy cpy to arr
     }
 
     // Reverse an Array in groups of given size
