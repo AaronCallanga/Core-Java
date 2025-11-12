@@ -35,8 +35,24 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex50();
+        ex51();
         //ex2_hard();
+    }
+
+    // Return comparison of a Person object based on last name and then age
+    record Person2(String firstName, String lastName, int age) {}
+    private static void ex51() {
+        List<Person2> list = Arrays.asList(
+                new Person2("Bobby", "Smith", 23),
+                new Person2("Bobby", "Adams", 25),
+                new Person2("John", "Smith", 19),
+                new Person2("Alice", "Johnson", 10)
+                                          );
+
+        List<Person2> collect = list.stream().sorted(Comparator.comparing(Person2::lastName).thenComparing(Person2::age)).collect(Collectors.toList());
+        System.out.println(collect);
+        // sorted by lastname only          [Person2[firstName=Bobby, lastName=Adams, age=25], Person2[firstName=Alice, lastName=Johnson, age=10], Person2[firstName=Bobby, lastName=Smith, age=23], Person2[firstName=John, lastName=Smith, age=19]]
+        // sorted by both lastname and age [Person2[firstName=Bobby, lastName=Adams, age=25], Person2[firstName=Alice, lastName=Johnson, age=10], Person2[firstName=John, lastName=Smith, age=19], Person2[firstName=Bobby, lastName=Smith, age=23]]
     }
 
     // Print the Employees' name and salary whose salary >= 2000 and increase it by 1000
