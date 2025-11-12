@@ -70,6 +70,12 @@ public class Main {
                                     .map(s -> s.substring(s.lastIndexOf(":") + 1)) // get the event only
                                     .collect(Collectors.toList());
         System.out.println(collect1); // [Database connected, User Logged In, Server Started, User Logged out]
+        List<String> collect3 = logs.stream().sorted(Comparator.comparing((String log) -> log.split(":")[0])
+                                                               .thenComparing((String log) -> log.split(":")[1])
+                                                               .thenComparing((String log) -> log.split(":")[2]))
+                                    .map(s -> s.split(":")[3]) // or s.substring(s.lastIndexOf(":") + 1)
+                                    .collect(Collectors.toList());
+        System.out.println(collect3);
     }
 
     // Find the average salary from each department
