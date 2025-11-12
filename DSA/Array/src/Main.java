@@ -1,8 +1,19 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
-        p2();
+        p3();
+    }
+
+    // Maximum product of a triplet (subsequence of size 3) in array (3 greatest number including negative numbers, -2 * -2 = 4)
+    private static void p3() {
+        int[] arr = {1, -4, 3, -6, 7, 0};
+        int n = arr.length;
+        int d = 3;
+        Arrays.sort(arr);
+        int maxProduct = Math.max(arr[0] * arr[1] * arr[n - 1], arr[n - 1] * arr[n - 2] * arr[n - 3]);
+        System.out.println(maxProduct); // 168
     }
 
     // Rotate an Array by d - Counterclockwise or Left
