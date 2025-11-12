@@ -37,8 +37,39 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex54();
+        ex55();
         //ex2_hard();
+    }
+
+    // Reorder message from format in chronological order HH:MM:ID:Message
+    private static void ex55() {
+        List<String> logs = Arrays.asList(
+                "14:30:3:Server Started",
+                "14:30:1:User Logged In",
+                "14:29:2:Database connected",
+                "18:32:4:User Logged out"
+                                         );
+        // BY ID
+        List<String> collect = logs.stream()
+                                   .map(s -> s.split(":"))
+                                   .sorted(Comparator.comparing(x -> Integer.valueOf(x[2])))
+                                   .map(x -> x[3])
+                                   .collect(Collectors.toList());
+        System.out.println(collect); // [User Logged In, Database connected, Server Started, User Logged out]
+        // By Time
+        List<String> collect2 = logs.stream()
+                                   .map(s -> s.split(":"))
+                                   .sorted(Comparator.comparing(x -> Integer.valueOf(x[0] + Integer.valueOf(x[1] + Integer.valueOf(x[2])))))
+                                   .map(x -> x[3])
+                                   .collect(Collectors.toList());
+        System.out.println(collect2); // [Database connected, User Logged In, Server Started, User Logged out]
+        // By Time 2.0
+        List<String> collect1 = logs.stream()
+                                    .sorted(Comparator.comparing(s -> Integer.valueOf(s.substring(0, s.lastIndexOf(":"))
+                                                                                       .replaceAll(":", ""))))
+                                    .map(s -> s.substring(s.lastIndexOf(":") + 1)) // get the event only
+                                    .collect(Collectors.toList());
+        System.out.println(collect1); // [Database connected, User Logged In, Server Started, User Logged out]
     }
 
     // Find the average salary from each department
