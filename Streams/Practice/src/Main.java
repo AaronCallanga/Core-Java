@@ -35,8 +35,19 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex51();
+        ex52();
         //ex2_hard();
+    }
+
+    // Print the count of a particular substring
+    private static void ex52() {
+        String s = "byebyeBirdiebye!";
+        String target = "bye";
+
+        long count = IntStream.range(0, s.length() - (target.length() - 1))
+                              .filter(i -> s.substring(i, i + target.length()).equals(target))
+                              .count();
+        System.out.println(count); // 3
     }
 
     // Return comparison of a Person object based on last name and then age
