@@ -37,8 +37,17 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex56();
+        ex57();
         //ex2_hard();
+    }
+
+    // Convert list of string into map of String and its equivalent length
+    private static void ex57() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "pear", "grape", "banana");
+
+        Map<String, Integer> collect = fruits.stream()
+                                          .collect(Collectors.toMap(Function.identity(), String::length, (existing, duplicate) -> existing));
+        System.out.println(collect); // {banana=6, orange=6, apple=5, pear=4, grape=5}
     }
 
     // Return character with the maximum frequency
@@ -55,7 +64,7 @@ public class Main {
                          .findFirst()
                          .get()
                          .getKey();
-        System.out.println(max);
+        System.out.println(max); // e
         // Method 2
         Character c1 = s.chars()
                         .mapToObj(c -> (char) c)
@@ -65,7 +74,7 @@ public class Main {
                         .max(Map.Entry.comparingByValue())
                         .map(Map.Entry::getKey)
                         .orElse(null);
-        System.out.println(c1);
+        System.out.println(c1); // e
     }
 
     // Reorder message from format in chronological order HH:MM:ID:Message
