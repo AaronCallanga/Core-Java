@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,8 +40,18 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex59();
+        ex60();
         //ex2_hard();
+    }
+
+    // Reverse a List of Strings
+    private static void ex60() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "pear", "grape");
+        List<String> collect = fruits.stream().collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                    Collections.reverse(list);
+                    return list; // Finisher function needs to return the transformed list
+                }));
+        System.out.println(collect); // [grape, pear, orange, banana, apple]
     }
 
     // Find First Repeated Element in a List
@@ -50,7 +61,7 @@ public class Main {
         // if elemenet already exist in the hash set, the .add() method will return false
         Integer i = Arrays.stream(arr).boxed().filter(n -> !set.add(n)).findFirst().orElse(-1);
 
-        System.out.println(i);
+        System.out.println(i); // 4
     }
 
     // Transform one object into another . Transform Employee to EmployeeDTO
