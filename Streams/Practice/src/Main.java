@@ -37,8 +37,35 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex55();
+        ex56();
         //ex2_hard();
+    }
+
+    // Return character with the maximum frequency
+    private static void ex56() {
+        String s = "javadeveloper";
+
+        // Method 1 - Count then reverse sort by value and get first key
+        Character max = s.chars()
+                         .mapToObj(c -> (char) c)
+                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                         .entrySet()
+                         .stream()
+                         .sorted(Map.Entry.<Character, Long>comparingByValue().reversed())
+                         .findFirst()
+                         .get()
+                         .getKey();
+        System.out.println(max);
+        // Method 2
+        Character c1 = s.chars()
+                        .mapToObj(c -> (char) c)
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                        .entrySet()
+                        .stream()
+                        .max(Map.Entry.comparingByValue())
+                        .map(Map.Entry::getKey)
+                        .orElse(null);
+        System.out.println(c1);
     }
 
     // Reorder message from format in chronological order HH:MM:ID:Message
