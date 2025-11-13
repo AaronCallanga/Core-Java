@@ -2,6 +2,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,18 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex58();
+        ex59();
         //ex2_hard();
+    }
+
+    // Find First Repeated Element in a List
+    private static void ex59() {
+        int[] arr = {1,2,4,3,4,2,5,3,6};
+        Set<Integer> set = new HashSet<>();
+        // if elemenet already exist in the hash set, the .add() method will return false
+        Integer i = Arrays.stream(arr).boxed().filter(n -> !set.add(n)).findFirst().orElse(-1);
+
+        System.out.println(i);
     }
 
     // Transform one object into another . Transform Employee to EmployeeDTO
