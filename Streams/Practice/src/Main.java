@@ -23,6 +23,7 @@ public class Main {
     record Person2(String firstName, String lastName, int age) {}
     record Employee(String name, String email, Double salary) {}
     record Employee2(String name, String department, Double salary) {}
+    record EmployeeDTO(UUID id, String name, String department) {}
     record Product(int id, String name, int price, String category) {}
 
     /** @Projects:
@@ -37,8 +38,25 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex57();
+        ex58();
         //ex2_hard();
+    }
+
+    // Transform one object into another . Transform Employee to EmployeeDTO
+    private static void ex58() {
+        List<Employee2> list = Arrays.asList(
+                new Employee2("Alice", "HR", 2000.0),
+                new Employee2("Bob", "IT", 3000.0),
+                new Employee2("Charlie", "IT", 2000.0),
+                new Employee2("David", "Finance", 1500.0),
+                new Employee2("Eve", "IT", 4000.0),
+                new Employee2("Frank", "Finance", 1800.0),
+                new Employee2("Grace", "HR", 2300.0)
+                                            );
+        List<EmployeeDTO> collect = list.stream()
+                                        .map(e -> new EmployeeDTO(UUID.randomUUID(), e.name(), e.department()))
+                                        .collect(Collectors.toList());
+        System.out.println(collect); // [EmployeeDTO[id=51385f34-53fe-4f8d-bfff-debf584e44d6, name=Alice, department=HR], EmployeeDTO[id=4cd94cea-59c2-4136-9eea-90a389a6f5a0, name=Bob, department=IT] ...
     }
 
     // Convert list of string into map of String and its equivalent length
