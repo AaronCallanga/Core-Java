@@ -40,18 +40,31 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex61();
+        ex62();
         //ex2_hard();
+    }
+
+    // Return a that List Contains Words Starting with 'A' From a List of Strings
+    private static void ex62() {
+        String[] names = {"Amit", "Suresh", "Animesh", "Vikram", "apple", "banana", "kiwi"};
+
+        List<String> collect = Arrays.stream(names)
+                                     .filter(n -> n.startsWith("A") || n.startsWith("a"))
+                                     .collect(Collectors.toList());
+        System.out.println(collect);
+
+        // Method 2
+        List<String> ans = Arrays.stream(names)
+                                             .collect(Collectors.partitioningBy(n -> n.toLowerCase().startsWith("a")))
+                .get(true);
+        System.out.println(ans);
     }
 
     // Group strings by length
     private static void ex61() {
         List<String> strings = Arrays.asList("One", "Two", "Three");
         Map<Integer, List<String>> collect = strings.stream()
-                                                    .collect(Collectors.groupingBy(
-                                                            String::length,
-                                                            Collectors.toList()
-                                                                                  ));
+                                                    .collect(Collectors.groupingBy(String::length));
         System.out.println(collect); // {3=[One, Two], 5=[Three]}
 
     }
