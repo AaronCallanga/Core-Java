@@ -40,8 +40,15 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex63();
+        ex64();
         //ex2_hard();
+    }
+
+    // Flatten the integers and group by odd and even numbers
+    private static void ex64() {
+        List<List<Integer>> list = Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6), Arrays.asList(7, 8, 9));
+        Map<Boolean, List<Integer>> collect = list.stream().flatMap(Collection::stream).collect(Collectors.partitioningBy(i -> i % 2 == 0));
+        System.out.println(collect);
     }
 
     // Find Duplicate Values in a List
