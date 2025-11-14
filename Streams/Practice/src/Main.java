@@ -40,15 +40,36 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex64();
+        ex65();
         //ex2_hard();
+    }
+
+    // Check if All Elements in a List are Positive/Negative
+    private static void ex65() {
+        // All are positive
+        List<Integer> s = Arrays.asList(1, 2, 3, -4, 1, -10, 4, 5, -2, 0);
+        boolean a = s.stream().allMatch(x -> x >= 0);
+        System.out.println(a); // false
+
+        // No negative elements
+        boolean b = s.stream().noneMatch(x -> x <0);
+        System.out.println(b); // false
+
+        // Has atleast one 0 element
+        boolean c = s.stream().anyMatch(x -> x == 0);
+        System.out.println(c); // true
     }
 
     // Flatten the integers and group by odd and even numbers
     private static void ex64() {
         List<List<Integer>> list = Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6), Arrays.asList(7, 8, 9));
+        List<Integer> list2= Arrays.asList(10,11,12);
         Map<Boolean, List<Integer>> collect = list.stream().flatMap(Collection::stream).collect(Collectors.partitioningBy(i -> i % 2 == 0));
         System.out.println(collect);
+
+        List<Integer> collect1 = Stream.concat(list2.stream(), list.stream().flatMap(Collection::stream))
+                                       .collect(Collectors.toList());
+        System.out.println(collect1); // [10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
 
     // Find Duplicate Values in a List
