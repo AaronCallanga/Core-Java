@@ -40,8 +40,29 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex62();
+        ex63();
         //ex2_hard();
+    }
+
+    // Find Duplicate Values in a List
+    private static void ex63() {
+        int[] arr = {1,2,3,4,5,6,3,4,7,6,8};
+        // Method 1 - if temp.add() returns true, meaning the set still doesn't have that value or no duplicate yet.
+        // But if it return false(duplicate), then we negate it, it will be accumulated to our resulting list
+        Set<Integer> temp = new HashSet<>();
+        List<Integer> collect = Arrays.stream(arr).boxed().filter(x -> !temp.add(x)).collect(Collectors.toList());
+        System.out.println(collect); // [3, 4, 6]
+
+        // Method 2 - Group then filter
+        List<Integer> collect1 = Arrays.stream(arr)
+                                       .boxed()
+                                       .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                                       .entrySet()
+                                       .stream()
+                                       .filter(entry -> entry.getValue() > 1)
+                                       .map(Map.Entry::getKey)
+                                       .collect(Collectors.toList());
+        System.out.println(collect1); // [3, 4, 6]
     }
 
     // Return a that List Contains Words Starting with 'A' From a List of Strings
