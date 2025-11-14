@@ -40,8 +40,20 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex60();
+        ex61();
         //ex2_hard();
+    }
+
+    // Group strings by length
+    private static void ex61() {
+        List<String> strings = Arrays.asList("One", "Two", "Three");
+        Map<Integer, List<String>> collect = strings.stream()
+                                                    .collect(Collectors.groupingBy(
+                                                            String::length,
+                                                            Collectors.toList()
+                                                                                  ));
+        System.out.println(collect); // {3=[One, Two], 5=[Three]}
+
     }
 
     // Reverse a List of Strings
