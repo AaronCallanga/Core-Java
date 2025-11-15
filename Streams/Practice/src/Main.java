@@ -40,8 +40,45 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex66();
+        ex68();
         //ex2_hard();
+    }
+    // Find Palindromic Strings in a List
+    private static void ex68() {
+        List<String> list = Arrays.asList("madam", "apple", "racecar");
+
+        // Method 1 - Stringbuilder - for performance, Stringbuffer - for thread safety
+        List<String> collect1 = list.stream()
+                                    .filter(w -> new StringBuffer(w).reverse().toString().equals(w)) // or Stringbuilder
+                                    .collect(Collectors.toList());
+        System.out.println(collect1); // [madam, racecar]
+
+        // Method 2
+        List<String> collect = list.stream().filter(w -> {
+            String[] split = w.split("");
+            int l = 0, r = w.length() - 1;
+            while (l < r) {
+                if (!split[l++].equals(split[r--])) {
+                    return false;
+                }
+            }
+            return true;
+        }).collect(Collectors.toList());
+        System.out.println(collect); // [madam, racecar]
+    }
+
+    // Sort List of Strings by Length
+    private static void ex67() {
+        List<String> s = Arrays.asList("a", "bb", "cccc", "ddd", "eeeee");
+        // Method 1
+        List<String> collect = s.stream().sorted(Comparator.comparing(String::length)).collect(Collectors.toList());
+        System.out.println(collect); // [a, bb, ddd, cccc, eeeee]
+
+        // Method 2
+        List<String> collect1 = s.stream()
+                                 .sorted((s1, s2) -> Integer.compare(s1.length(), s2.length()))
+                                 .collect(Collectors.toList());
+        System.out.println(collect1); // [a, bb, ddd, cccc, eeeee]
     }
 
     // Collect Prime Numbers from a List
