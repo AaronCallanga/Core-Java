@@ -40,8 +40,22 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex65();
+        ex66();
         //ex2_hard();
+    }
+
+    // Collect Prime Numbers from a List
+    private static void ex66() {
+        List<Integer> arr = Arrays.asList(1, 2, 3, 4, 5,6,7,8,9,10);
+        List<Integer> collect = arr.stream().filter(num -> {
+            if (num <= 1) return false;
+            for (int i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i == 0) return false;
+            }
+            return true;
+        }).collect(Collectors.toList());
+
+        System.out.println(collect); // [2, 3, 5, 7]
     }
 
     // Check if All Elements in a List are Positive/Negative
