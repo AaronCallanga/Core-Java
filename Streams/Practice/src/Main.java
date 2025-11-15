@@ -40,9 +40,23 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex68();
+        ex69();
         //ex2_hard();
     }
+    // Find the middle elements and its median
+    private static void ex69() {
+        List<Integer> nums = Arrays.asList(1,2,3,4,5,6);
+        List<Integer> middle = (nums.size() % 2 == 0) ?
+                nums.stream().skip(nums.size()/2 - 1).limit(2).collect(Collectors.toList()) :
+                nums.stream().skip(nums.size() / 2).limit(1).collect(Collectors.toList()); // or just use nums.get(nums.size() / 2)
+        System.out.println(middle); // [3, 4]
+
+        double median = (nums.size() % 2 == 0) ?
+                nums.stream().sorted().skip(nums.size()/2 - 1).limit(2).mapToDouble(Integer::doubleValue).average().orElse(-1) :
+                nums.get(nums.size() / 2);
+        System.out.println(median);
+    }
+
     // Find Palindromic Strings in a List
     private static void ex68() {
         List<String> list = Arrays.asList("madam", "apple", "racecar");
