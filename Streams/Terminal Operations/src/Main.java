@@ -61,11 +61,10 @@ public class Main {
         //joining();
         //counting();
         //summarizingType();
-        collectingAndThen();
+        //collectingAndThen();
         noneMatch();
         anyMatch();
         allMatch();
-
 
     }
 
@@ -209,6 +208,10 @@ public class Main {
     }
 
     // groupingBy with downstream collectors (composing collectors). This allows aggregation per-group.
+    // a downstream collector is a Collector that is passed as an argument to another Collector to perform a
+    // subsequent reduction or transformation on the elements that have already been processed by the "upstream" collector.
+    // It essentially allows for a multi-level reduction, where the output of one collection operation serves as the input
+    // for another.
     private static void groupingByWithDownstreamCollectors() {
 
         // Grouping + Mapping (w/ Collections)
@@ -264,6 +267,18 @@ public class Main {
                                                                                                          Collectors.toList()),
                                                                                                  list -> list.stream().map(String::toUpperCase).collect(Collectors.toList()))));
         System.out.println("Grouping + CollectingAndThen -> Uppercase Names Per Department: " + listOfNamesInUpperCasePerDepartment);
+
+        // Grouping + Filtering
+        Map<String, List<Employee>> groupByDepartmentAndFilter = employees.stream()
+                                                                          .collect(Collectors.groupingBy(
+                                                                                  Employee::department,
+                                                                                  Collectors.filtering(
+                                                                                          e -> e.salary() >= 50000,
+                                                                                          Collectors.toList()
+                                                                                                      )
+                                                                                                        ));
+        System.out.println(groupByDepartmentAndFilter);
+        // {Finance=[], HR=[Employee[department=HR, name=Charizard, salary=50000]], IT=[Employee[department=IT, name=Snorlax, salary=70000]]}
 
     }
 

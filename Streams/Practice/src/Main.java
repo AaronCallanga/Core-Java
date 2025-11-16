@@ -40,8 +40,23 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex71();
+        ex72();
         //ex2_hard();
+    }
+
+    // Find Maximum Product of Two Integers in List
+    private static void ex72() {
+        List<String> strings = Arrays.asList("aa", "bbb", "cdaw", "d", "eda", "fwda", "gada", "hdde");
+
+        Map<String, Long> collect = strings.stream()
+                                           .collect(Collectors.groupingBy(
+                                                           Function.identity(),
+                                                           Collectors.filtering(
+                                                                   s -> s.length() > 3,
+                                                                   Collectors.counting()
+                                                                               )
+                                                                                 ));
+        System.out.println(collect);
     }
 
     // Find the First Non Repeated Character in String
