@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -289,8 +290,16 @@ public class Main {
         // Output: TreeMap (sorted keys): {apple=1, banana=1, grape=1, kiwi=1, orange=1}
 
         // ConcurrentHashMap - for performing parallel stream operations or need a thread-safe map
+        // Grouping into a ConcurrentHashMap (useful for parallel streams)
+        Map<String, Long> concurrentMap = items.parallelStream().collect(
+                Collectors.groupingBy(
+                        Function.identity(),
+                        ConcurrentHashMap::new, // Supplier for ConcurrentHashMap
+                        Collectors.counting()
+                                     )
+                                                                        );
 
-
+        System.out.println("ConcurrentHashMap (thread-safe): " + concurrentMap);
     }
 
     // Divide (and group) the list based on the predicate(or condition) you passed
