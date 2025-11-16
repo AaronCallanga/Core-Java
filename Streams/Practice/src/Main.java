@@ -40,9 +40,40 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex69();
+        ex71();
         //ex2_hard();
     }
+
+    // Find the First Non Repeated Character in String
+    private static void ex71() {
+        String s = "Ssaurabh";
+
+        Character c1 = s.chars()
+                        .mapToObj(c -> (char) Character.toLowerCase(c))
+                        .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                        .entrySet()
+                        .stream()
+                        .filter(e -> e.getValue() == 1)
+                        .findFirst()
+                        .map(Map.Entry::getKey)
+                        .orElse(null);
+        System.out.println(c1); // u
+    }
+
+    // Count Number of Characters in a List
+    private static void ex70() {
+        // Method 1
+        List<String> strings = Arrays.asList("aa", "bbb", "cdaw", "d", "eda", "fwda", "gada", "hdde");
+        Optional<Long> reduce = strings.stream()
+                                       .map(w -> Arrays.stream(w.split("")).count())
+                                       .reduce((x, y) -> x + y);
+        System.out.println(reduce.get()); // 25
+
+        // Method 2
+        int sum = strings.stream().mapToInt(String::length).sum();
+        System.out.println(sum); // 25
+    }
+
     // Find the middle elements and its median
     private static void ex69() {
         List<Integer> nums = Arrays.asList(1,2,3,4,5,6);
@@ -53,7 +84,7 @@ public class Main {
 
         double median = (nums.size() % 2 == 0) ?
                 nums.stream().sorted().skip(nums.size()/2 - 1).limit(2).mapToDouble(Integer::doubleValue).average().orElse(-1) :
-                nums.get(nums.size() / 2);
+                nums.get(nums.size() / 2); // list must be sorted
         System.out.println(median);
     }
 

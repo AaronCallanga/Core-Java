@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.DoubleSummaryStatistics;
 import java.util.IntSummaryStatistics;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
@@ -262,6 +263,18 @@ public class Main {
                                                                                                  list -> list.stream().map(String::toUpperCase).collect(Collectors.toList()))));
         System.out.println("Grouping + CollectingAndThen -> Uppercase Names Per Department: " + listOfNamesInUpperCasePerDepartment);
 
+    }
+
+    private static void groupingByWithMapFactory() {
+        // Grouping + MapFactory
+        // Maintains insertion ordered. You can also use TreeMap to sort it naturally (by keys)
+        LinkedHashMap<String, List<Employee>> groupByDepartmentMaintainInsertionOrder = employees.stream()
+                                                                                                 .collect(Collectors.groupingBy(
+                                                                                                         Employee::department,
+                                                                                                         LinkedHashMap::new,
+                                                                                                         Collectors.toList()
+                                                                                                                               ));
+        System.out.println("Grouping + MapFactory " + groupByDepartmentMaintainInsertionOrder);
     }
 
     // Divide (and group) the list based on the predicate(or condition) you passed
