@@ -40,8 +40,17 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex73();
+        ex74();
         //ex2_hard();
+    }
+
+    // Find Common Elements Between Two Lists
+    private static void ex74() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "pear", "grape");
+        List<String> fruits2 = Arrays.asList("apple", "banana", "grape");
+
+        List<String> collect = fruits2.stream().filter(fruits2::contains).collect(Collectors.toList());
+        System.out.println(collect);
     }
 
     // Find Maximum Product of Two Integers in List
