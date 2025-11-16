@@ -40,8 +40,18 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex72();
+        ex73();
         //ex2_hard();
+    }
+
+    // Find Maximum Product of Two Integers in List
+    private static void ex73() {
+        List<Integer> numbers = Arrays.asList(-1 , -4, 3, -5);
+        Integer ans = numbers.stream()
+                            .flatMap(i -> numbers.stream().filter(j -> !i.equals(j)).map(j -> i * j))
+                            .max(Integer::compareTo).orElse(null);
+        // flatmap - contains Stream<Integer> that is multiplied by each element(i) to another numbers.stream() then perform flattening it
+        System.out.println(ans); // 20
     }
 
     // Count the number of employees per department that has salary greater than 2000
