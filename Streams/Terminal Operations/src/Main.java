@@ -11,6 +11,7 @@ import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -275,6 +276,18 @@ public class Main {
                                                                                                          Collectors.toList()
                                                                                                                                ));
         System.out.println("Grouping + MapFactory " + groupByDepartmentMaintainInsertionOrder);
+
+        List<String> items = Arrays.asList("apple", "orange", "banana", "kiwi", "grape");
+        TreeMap<String, List<String>> treeMap = items.stream()
+                                                     .collect(Collectors.groupingBy(
+                                                             Function.identity(),
+                                                             TreeMap::new,
+                                                             Collectors.toList()
+                                                                                   ));
+        System.out.println("TreeMap (sorted keys): " + treeMap);
+        // Output: TreeMap (sorted keys): {apple=1, banana=1, grape=1, kiwi=1, orange=1}
+
+
     }
 
     // Divide (and group) the list based on the predicate(or condition) you passed
