@@ -49,8 +49,15 @@ public class Main {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         List<Integer> sub = Arrays.asList(7, 4, 1, 2, 10);
 
-        boolean b = sub.stream().allMatch(i -> numbers.contains(i));
-        System.out.println(b); // true
+        boolean b = IntStream.rangeClosed(0, numbers.size() - sub.size())
+                             .anyMatch(i -> {
+                                 List<Integer> window = numbers.subList(i, i + sub.size());
+                                 return window.equals(sub);
+                             });
+        System.out.println(b); // false, sub-list elements should be orderly syncrhonized with the main list
+
+        boolean b1 = sub.stream().allMatch(i -> numbers.contains(i));
+        System.out.println(b1); // true
 
         // List has a method containsAll, instead of using streams
         boolean b2 = numbers.containsAll(sub);
