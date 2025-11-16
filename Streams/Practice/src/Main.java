@@ -40,8 +40,25 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex74();
+        ex75();
         //ex2_hard();
+    }
+
+    // Check If a List Contains a Sub-list
+    private static void ex75() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> sub = Arrays.asList(7, 4, 1, 2, 10);
+
+        boolean b = sub.stream().allMatch(i -> numbers.contains(i));
+        System.out.println(b); // true
+
+        // List has a method containsAll, instead of using streams
+        boolean b2 = numbers.containsAll(sub);
+        System.out.println(b2); // true
+
+        // List has a method indexOfSubList which returns starting index of the sub-list or -1 if not found (sub-list element should be ordered based on the main list)
+        boolean b3 = Collections.indexOfSubList(numbers, sub) != -1;
+        System.out.println(b3); // false, since the next element of 7 in main list is 8 while 4 in the sub-list
     }
 
     // Find Common Elements Between Two Lists
