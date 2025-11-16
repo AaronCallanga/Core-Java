@@ -266,18 +266,19 @@ public class Main {
 
     }
 
+    // Grouping + MapFactory
     private static void groupingByWithMapFactory() {
-        // Grouping + MapFactory
-        // Maintains insertion ordered. You can also use TreeMap to sort it naturally (by keys)
-        LinkedHashMap<String, List<Employee>> groupByDepartmentMaintainInsertionOrder = employees.stream()
-                                                                                                 .collect(Collectors.groupingBy(
-                                                                                                         Employee::department,
-                                                                                                         LinkedHashMap::new,
-                                                                                                         Collectors.toList()
-                                                                                                                               ));
-        System.out.println("Grouping + MapFactory " + groupByDepartmentMaintainInsertionOrder);
-
         List<String> items = Arrays.asList("apple", "orange", "banana", "kiwi", "grape");
+        // LinkedHashMap - Maintains insertion ordered. You can also use TreeMap to sort it naturally (by keys)
+        LinkedHashMap<String, List<Integer>> groupByItemMaintainInsertionOrder = items.stream()
+                                                                                         .collect(Collectors.groupingBy(
+                                                                                                 Function.identity(),  //Classifier function
+                                                                                                 LinkedHashMap::new,    // Map factory (supplier)
+                                                                                                 Collectors.mapping(String::length, Collectors.toList())    // Downstream collector
+                                                                                                                       ));
+        System.out.println("Grouping + MapFactory " + groupByItemMaintainInsertionOrder);
+
+        // A TreeMap automatically sorts its keys (either naturally or via a provided Comparator).
         TreeMap<String, List<String>> treeMap = items.stream()
                                                      .collect(Collectors.groupingBy(
                                                              Function.identity(),
@@ -286,6 +287,8 @@ public class Main {
                                                                                    ));
         System.out.println("TreeMap (sorted keys): " + treeMap);
         // Output: TreeMap (sorted keys): {apple=1, banana=1, grape=1, kiwi=1, orange=1}
+
+        // ConcurrentHashMap - for performing parallel stream operations or need a thread-safe map
 
 
     }
