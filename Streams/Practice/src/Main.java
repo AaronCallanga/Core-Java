@@ -44,19 +44,31 @@ public class Main {
         //ex2_hard();
     }
 
-    // Find Maximum Product of Two Integers in List
+    // Count the number of employees per department that has salary greater than 2000
+    // Group by department and count the employees having salary of greater than 2000
     private static void ex72() {
-        List<String> strings = Arrays.asList("aa", "bbb", "cdaw", "d", "eda", "fwda", "gada", "hdde");
+        List<Employee2> list = Arrays.asList(
+                new Employee2("Alice", "HR", 2000.0),
+                new Employee2("Bob", "IT", 3000.0),
+                new Employee2("Charlie", "IT", 2000.0),
+                new Employee2("David", "Finance", 1500.0),
+                new Employee2("Eve", "IT", 4000.0),
+                new Employee2("Frank", "Finance", 1800.0),
+                new Employee2("Grace", "HR", 2300.0)
+                                            );
+        Map<String, Long> collect = list.stream()
+                                        .collect(Collectors.groupingBy(
+                                                Employee2::department,
+                                                Collectors.filtering(e -> e.salary() > 2000, Collectors.counting()) // Filter every entry per group by the predicate and count it
+                                                                      ));
+        System.out.println(collect); // {Finance=0, HR=1, IT=2}
 
-        Map<String, Long> collect = strings.stream()
-                                           .collect(Collectors.groupingBy(
-                                                           Function.identity(),
-                                                           Collectors.filtering(
-                                                                   s -> s.length() > 3,
-                                                                   Collectors.counting()
-                                                                               )
-                                                                                 ));
-        System.out.println(collect);
+        // Method 2
+        Map<String, Long> collect1 = list.stream()
+                                         .filter(e -> e.salary() > 2000)
+                                         .collect(Collectors.groupingBy(Employee2::department, Collectors.counting()));
+        System.out.println(collect1); // {HR=1, IT=2}
+
     }
 
     // Find the First Non Repeated Character in String

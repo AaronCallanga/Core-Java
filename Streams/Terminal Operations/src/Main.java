@@ -212,6 +212,7 @@ public class Main {
     // subsequent reduction or transformation on the elements that have already been processed by the "upstream" collector.
     // It essentially allows for a multi-level reduction, where the output of one collection operation serves as the input
     // for another.
+    // Upstream collect first, then downstream next
     private static void groupingByWithDownstreamCollectors() {
 
         // Grouping + Mapping (w/ Collections)
@@ -268,7 +269,7 @@ public class Main {
                                                                                                  list -> list.stream().map(String::toUpperCase).collect(Collectors.toList()))));
         System.out.println("Grouping + CollectingAndThen -> Uppercase Names Per Department: " + listOfNamesInUpperCasePerDepartment);
 
-        // Grouping + Filtering
+        // Grouping + Filtering ( Group then filter then save to a list)
         Map<String, List<Employee>> groupByDepartmentAndFilter = employees.stream()
                                                                           .collect(Collectors.groupingBy(
                                                                                   Employee::department,
