@@ -40,8 +40,17 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex76();
+        ex77();
         //ex2_hard();
+    }
+
+    // Find Difference Between Two Lists
+    private static void ex77() {
+        List<Integer> set1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> set2 = Arrays.asList(3, 4, 5);
+
+        List<Integer> collect = set1.stream().filter(s1 -> !set2.contains(s1)).collect(Collectors.toList());
+        System.out.println(collect);   // [1, 2]
     }
 
     // Sort Strings by Their Last Character
