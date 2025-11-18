@@ -40,8 +40,23 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex78();
+        ex79();
         //ex2_hard();
+    }
+
+    // Find Longest Palindrome in a List
+    private static void ex79() {
+        List<String> list = Arrays.asList("madam", "hello", "civic", "noon", "level", "kayak"); // racecar
+
+        List<String> palindromeList = list.stream()
+                                   .filter(s -> new StringBuilder(s).reverse().toString().equals(s))
+                                   .collect(Collectors.toList());
+        int maxLength = palindromeList.stream().max(Comparator.comparing(String::length)).orElse(null).length();
+        List<String> collect = palindromeList.stream()
+                                             .filter(p -> p.length() == maxLength)
+                                             .collect(Collectors.toList());
+        System.out.println(collect); // [racecar] or [madam, civic, level, kayak]
+
     }
 
     // Reverse the Characters of Each String in a List
