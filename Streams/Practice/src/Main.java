@@ -40,8 +40,19 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex77();
+        ex78();
         //ex2_hard();
+    }
+
+    // Reverse the Characters of Each String in a List
+    private static void ex78() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "banana");
+
+        // M
+        List<String> collect = fruits.stream()
+                                     .map(f -> new StringBuilder(f).reverse().toString())
+                                     .collect(Collectors.toList());
+        System.out.println(collect); // [elppa, ananab, egnaro, ananab]
     }
 
     // Find Difference Between Two Lists
