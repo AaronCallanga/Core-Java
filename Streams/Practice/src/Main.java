@@ -40,8 +40,17 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex75();
+        ex76();
         //ex2_hard();
+    }
+
+    // Sort Strings by Their Last Character
+    private static void ex76() {
+        List<String> fruits = Arrays.asList("apple", "banana", "orange", "kiwi", "manggo");
+        List<String> collect = fruits.stream()
+                                     .sorted(Comparator.comparing(f -> f.charAt(f.length() - 1)))
+                                     .collect(Collectors.toList());
+        System.out.println(collect);    // [banana, apple, orange, kiwi, manggo]
     }
 
     // Check If a List Contains a Sub-list
@@ -79,7 +88,7 @@ public class Main {
 
     // Find Maximum Product of Two Integers in List
     private static void ex73() {
-        List<Integer> numbers = Arrays.asList(-1 , -4, 3, -5);
+        List<Integer> numbers = Arrays.asList(-1, -4, 3, -5);
         Integer ans = numbers.stream()
                             .flatMap(i -> numbers.stream().filter(j -> !i.equals(j)).map(j -> i * j))
                             .max(Integer::compareTo).orElse(null);
