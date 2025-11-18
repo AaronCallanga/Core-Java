@@ -40,8 +40,27 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex79();
+        ex80();
         //ex2_hard();
+    }
+
+    // Calculate Factorials of a List of Numbers
+    private static void ex80() {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        List<Long> collect1 = list.stream()
+                                  .map(x -> IntStream.rangeClosed(1, x).mapToLong(i -> i).reduce(1, (a, b) -> a*b))
+                                  .collect(Collectors.toList());
+        System.out.println(collect1); // [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+
+        List<Integer> collect = list.stream().map(x -> {
+            for (int i = x - 1; i >= 1; i--) {
+                x *= i;
+            }
+            return x;
+        }).collect(Collectors.toList());
+        System.out.println(collect);  // [1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+
     }
 
     // Find Longest Palindrome in a List
