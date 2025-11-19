@@ -40,8 +40,16 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex81();
+        ex82();
         //ex2_hard();
+    }
+
+    // Count the Number of Digits in a String
+    private static void ex82() {
+        String s = "Hello123";
+        long count = s.chars().mapToObj(c -> (char) c).filter(Character::isDigit).count();
+        System.out.println(count); // 3
+
     }
 
     // Find the Most Frequent Element in List
