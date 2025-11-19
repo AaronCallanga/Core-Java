@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,6 +28,7 @@ public class Main {
     record Employee2(String name, String department, Double salary) {}
     record EmployeeDTO(UUID id, String name, String department) {}
     record Product(int id, String name, int price, String category) {}
+    record Transaction(String date, int amount) {}
 
     /** @Projects:
     Log analyzer
@@ -40,8 +42,38 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex82();
+        ex83();
+        
         //ex2_hard();
+    }
+
+    // Sum and Sort Transactions by Date
+    private static void ex83() {
+        List<Transaction> transactions = Arrays.asList(
+                new Transaction("2024-12-23", 100),
+                new Transaction("2024-12-24", 200),
+                new Transaction("2024-12-25", 300),
+                new Transaction("2024-12-23", 400),
+                new Transaction("2024-12-24", 500));
+
+        // Treemap - auto sort elements
+        TreeMap<String, Integer> collect = transactions.stream()
+                                                       .collect(Collectors.groupingBy(
+                                                               Transaction::date,
+                                                               TreeMap::new,        // auto sort by keys (String date)
+                                                               Collectors.summingInt(Transaction::amount)
+                                                                                     ));
+        System.out.println(collect); // {2024-12-23=500, 2024-12-24=700, 2024-12-25=300}
+
+        // LinkedHashMap - maintain insertion order
+        LinkedHashMap<String, Integer> collect1 = transactions.stream()
+                                                              .sorted(Comparator.comparing(Transaction::date))
+                                                              .collect(Collectors.groupingBy(
+                                                                      Transaction::date,
+                                                                      LinkedHashMap::new,
+                                                                      Collectors.summingInt(Transaction::amount)
+                                                                                            ));
+        System.out.println(collect1); // {2024-12-23=500, 2024-12-24=700, 2024-12-25=300}
     }
 
     // Count the Number of Digits in a String
