@@ -40,8 +40,25 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex80();
+        ex81();
         //ex2_hard();
+    }
+
+    // Find the Most Frequent Element in List
+    private static void ex81() {
+        List<Integer> nums = Arrays.asList(1,2,3,2,1,3);
+
+        Map<Integer, Long> group = nums.stream()
+                                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Long maxFreq = group.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
+        List<Integer> collect = group.entrySet()
+                                     .stream()
+                                     .filter(e -> e.getValue() == maxFreq)
+                                     .map(Map.Entry::getKey)
+                                     .collect(Collectors.toList());
+        System.out.println(collect);     // [1, 2, 3]
+
     }
 
     // Calculate Factorials of a List of Numbers
