@@ -45,7 +45,25 @@ public class Main {
     public static void main(String[] args) {
         //ex84();
         
-        ex4_hard();
+        ex5_hard();
+    }
+
+    // Categorize each employee based on their salary
+    private static void ex5_hard() {
+        List<Employee2> employees = Arrays.asList(
+                new Employee2("Alice", "IT", 45000.0),
+                new Employee2("Bob", "IT", 78000.0),
+                new Employee2("Charlie", "IT", 120000.0),
+                new Employee2("David", "IT", 99000.0),
+                new Employee2("Frank", "IT", 30000.0)
+                                                 );
+
+        Map<String, List<Employee2>> collect = employees.stream().collect(Collectors.groupingBy(e -> { // create a function classifier
+            if (e.salary() < 50000) return "LOW";
+            if (e.salary() >= 50000 && e.salary() < 100000) return "MEDIUM";
+            else return "HIGH";
+        }));
+        System.out.println(collect);
     }
 
     // Find Sliding Window Average
