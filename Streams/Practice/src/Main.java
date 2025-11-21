@@ -17,6 +17,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -42,9 +43,34 @@ public class Main {
         Fetch paginated API results, flatten, transform, aggregate, and export CSV.
      */
     public static void main(String[] args) {
-        ex83();
+        //ex84();
         
-        //ex2_hard();
+        ex3_hard();
+    }
+    // Find the frequency of each bigram (pair of words)
+    private static void ex3_hard() {
+        String sentence = "Java is great and Java is fun. Java is powerful!";
+        String[] words = sentence.split(" "); // could also lower it first for normalization
+
+        // Wrong answer - the problem is indexOF returns the very first index that met the condition (equals to w1)
+        Map<String, Long> collect = Arrays.stream(words)
+                                          .map(w1 -> Arrays.stream(words)
+                                                  .skip(Arrays.asList(words).indexOf(w1))
+                                                           .limit(2)
+                                                           .collect(Collectors.joining(" ")))
+                                          .collect(Collectors.groupingBy(
+                                                  Function.identity(), LinkedHashMap::new, Collectors.counting()));
+        System.out.println(collect); // {Java is=3, is great=3, great and=1, and Java=1, fun. Java=1, powerful!=1}
+
+        // Correct approach
+        Map<String, Long> collect1 = IntStream.range(0, words.length - 1)
+                                              .mapToObj(i -> String.join(" ", words[i], words[i + 1])) // or just simply words[i] + " " + words[i + 1]
+                                              .collect(Collectors.groupingBy(
+                                                      Function.identity(),
+                                                      LinkedHashMap::new, // just to maitain insertion order
+                                                      Collectors.counting()
+                                                                            ));
+        System.out.println(collect1); // {Java is=3, is great=1, great and=1, and Java=1, is fun.=1, fun. Java=1, is powerful!=1}
     }
 
     // Sum and Sort Transactions by Date
