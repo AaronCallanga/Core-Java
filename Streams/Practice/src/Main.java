@@ -51,12 +51,12 @@ public class Main {
     // Find Sliding Window Average
     private static void ex4_hard() {
         List<Integer> numbers = Arrays.asList(4, 8, 15, 16, 23, 42);
-
-        List<Double> collect = IntStream.range(0, numbers.size() - 2)
-                                        .mapToObj(i -> numbers.subList(i, i + 3))// creates sublist from i to i + 3 (excluding the last element)
+        int windowSize = 3;
+        List<Double> collect = IntStream.range(0, numbers.size() - (windowSize - 1))
+                                        .mapToObj(i -> numbers.subList(i, i + windowSize))// creates sublist from i to i + windowSize (excluding the last element), with + i since we are moving the pointer
                                         .map(window -> window.stream().mapToInt(i -> i).average().orElse(0))
                                         .collect(Collectors.toList());
-        System.out.println(collect);
+        System.out.println(collect); // [9.0, 13.0, 18.0, 27.0]
     }
 
     // Find the frequency of each bigram (pair of words)
