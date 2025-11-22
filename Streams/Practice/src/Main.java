@@ -64,6 +64,8 @@ public class Main {
             else return "HIGH";
         }));
         System.out.println(collect);
+        // it is like saying, each employee will get their own 'classification (low/med/high) from the custom classfier function
+        // and present it to groupingBy function which groups them based on what 'classification' then got
     }
 
     // Find Sliding Window Average
